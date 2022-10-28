@@ -1,4 +1,5 @@
 import { Redirect, Route, Switch } from 'react-router-dom';
+import Login from './pages/Login';
 
 export default function Routes() {
   return (
@@ -6,7 +7,9 @@ export default function Routes() {
       <Route exact path="/">
         <Redirect to="/login" />
       </Route>
-      <Route path="/login" component={ <p>Login</p> } />
+      <Route path="/login">
+        <Login />
+      </Route>
     </Switch>
   );
 }
