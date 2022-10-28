@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 
-const { User } = require('../../../database/models/user.model');
+const { User } = require('../../../database/models');
 
 describe('Testes de unidade do model de users', function () {
   describe('teste do endpoint /login', async function () {

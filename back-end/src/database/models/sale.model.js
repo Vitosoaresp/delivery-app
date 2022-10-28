@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     Sale.belongsTo(models.User,
       { foreignKey: 'user_id', as: 'users' });
     Sale.belongsTo(models.User,
-      { foreignKey: 'seller_id', as: 'users' });
+      { foreignKey: 'seller_id', as: 'sellers' });
   };
 
   return Sale;
