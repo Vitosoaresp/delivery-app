@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { validateUsername,
   validateEmail,
   validatePassword,
 } from '../helpers/validationForm';
 
 export default function Register() {
+  const history = useHistory();
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -23,6 +26,7 @@ export default function Register() {
   function handleSubmitRegister(e) {
     e.preventDefault();
     setErrorRegisterMessage(true);
+    history.push('/login');
   }
 
   return (

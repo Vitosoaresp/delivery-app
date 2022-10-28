@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import { validateEmail, validatePassword } from '../helpers/validationForm';
 
 export default function Login() {
+  const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isValidForm, setIsValidForm] = useState(false);
@@ -65,6 +67,7 @@ export default function Login() {
             Login
           </button>
           <button
+            onClick={ () => history.push('/register') }
             type="button"
             data-testid="common_login__button-register"
           >
