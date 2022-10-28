@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import login from '../services/APIlogin';
 import logo from '../assets/logo.png';
 import { validateEmail, validatePassword } from '../helpers/validationForm';
 
@@ -18,9 +19,14 @@ export default function Login() {
     setErrorLoginMessage(false);
   }
 
-  function handleSubmitLogin(e) {
-    e.preventDefault();
-    setErrorLoginMessage(true);
+  async function handleSubmitLogin(e) {
+    try {
+      e.preventDefault();
+      await login(email, password);
+      history.push('/customer/products');
+    } catch (error) {
+      setErrorLoginMessage(true);
+    }
   }
 
   useEffect(() => {
@@ -80,7 +86,7 @@ export default function Login() {
           <p
             data-testid="common_login__element-invalid-email"
           >
-            Email ou senha mal formatados
+            Email e/ou senha inválidos
           </p>
         )}
       </div>
