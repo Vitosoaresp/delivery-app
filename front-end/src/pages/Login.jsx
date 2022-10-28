@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import logo from '../assets/logo.png';
+import { validateEmail, validatePassword } from '../helpers/validationForm';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -8,11 +9,9 @@ export default function Login() {
   const [errorLoginMessage, setErrorLoginMessage] = useState(false);
 
   function handleValidadeForm() {
-    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const minLengthPass = 6;
-    const validadeEmail = regexEmail.test(email);
-    const validadePass = password.length >= minLengthPass;
-    const isValid = validadeEmail && validadePass;
+    const isValidEmail = validateEmail(email);
+    const isValidPassword = validatePassword(password);
+    const isValid = isValidEmail && isValidPassword;
     setIsValidForm(isValid);
     setErrorLoginMessage(false);
   }

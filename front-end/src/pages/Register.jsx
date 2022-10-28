@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { validadeUsername,
+import { validateUsername,
   validateEmail,
   validatePassword,
 } from '../helpers/validationForm';
@@ -12,7 +12,7 @@ export default function Register() {
   const [errorRegisterMessage, setErrorRegisterMessage] = useState(false);
 
   useEffect(() => {
-    const isValidUsername = validadeUsername(name);
+    const isValidUsername = validateUsername(name);
     const isValidEmail = validateEmail(email);
     const isValidPassword = validatePassword(password);
     const isValidAll = isValidUsername && isValidEmail && isValidPassword;

@@ -8,7 +8,7 @@ export function validatePassword(password) {
   return password.length >= minLengthPass;
 }
 
-export function validadeUsername(username) {
+export function validateUsername(username) {
   const minLengthUsername = 12;
   return username.length >= minLengthUsername;
 }
