@@ -10,7 +10,7 @@ describe('Testes de unidade do model de users', function () {
 
       const email = "teste@teste.com";
       const password = "aaaaaa"
-      const result = await User.findOne({ where: {email, password}});
+      const result = await User.findOne({ where: { email, password } });
   
       expect(result).to.equal({});
     });
