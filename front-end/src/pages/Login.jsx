@@ -8,12 +8,18 @@ export default function Login() {
   const [errorLoginMessage, setErrorLoginMessage] = useState(false);
 
   function handleValidadeForm() {
-    const regexEmail = /^\S+@\S+.\S+$/;
+    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const minLengthPass = 6;
     const validadeEmail = regexEmail.test(email);
     const validadePass = password.length >= minLengthPass;
     const isValid = validadeEmail && validadePass;
     setIsValidForm(isValid);
+    setErrorLoginMessage(false);
+  }
+
+  function handleSubmitLogin(e) {
+    e.preventDefault();
+    setErrorLoginMessage(true);
   }
 
   useEffect(() => {
@@ -27,7 +33,7 @@ export default function Login() {
         <p>Ze delivery</p>
       </div>
       <div>
-        <form>
+        <form onSubmit={ (e) => handleSubmitLogin(e) }>
           <label htmlFor="email">
             Login
             <input
