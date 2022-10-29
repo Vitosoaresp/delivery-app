@@ -27,3 +27,5 @@ module.exports = (sequelize, DataTypes) => {
 
   return SaleProduct;
 };
+
+// oi
