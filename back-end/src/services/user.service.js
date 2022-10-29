@@ -19,7 +19,7 @@ const userService = {
     });
     if (user) return { status: 409, message: 'User already registered' };
     const newUser = await User.create({ 
-      name: data.name, email: data.email, password: passCryptor, role: 'customer',
+      name: data.name, email: data.email, password: passCryptor,
     });
     return newUser;
   },
