@@ -5,7 +5,7 @@ import {
   emailFailMock,
   emailMock,
   passwordFailMock,
-  passwordMock
+  passwordMock,
 } from './mocks/loginMocks';
 
 describe('Page login test', () => {
