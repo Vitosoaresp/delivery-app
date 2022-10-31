@@ -61,6 +61,14 @@ describe('Testes de unidade do controller de users', function () {
       expect(res.json.calledWith(userMock)).to.be.true;
     });
 
+    it('cadastro não realizado com sucesso - name já cadastrado', async function () {
+      sinon.stub(UserService, 'create').resolves({ message: 'User already registered', status: 409 });
+      await userController.create(req, res);
+      
+      expect(res.status.calledWith(409)).to.be.true;
+      expect(res.json.calledWith({ message: 'User already registered' })).to.be.true;
+    });
+
     it('cadastro não realizado com sucesso - email já cadastrado', async function () {
       sinon.stub(UserService, 'create').resolves({ message: 'User already registered', status: 409 });
       await userController.create(req, res);
