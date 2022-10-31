@@ -1,6 +1,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 
+const { User } = require('../../../database/models');
 const UserService = require('../../../services/user.service');
 
 userMock = {
@@ -14,23 +15,23 @@ userMock = {
 describe('Testes de unidade do service de users', function () {
   describe('teste do endpoint /login', function () {
     it('login realizado com sucesso', async function () {
-      sinon.stub(UserService, 'login').resolves({ hasToken: false });
+      sinon.stub(User, 'findOne').resolves(userMock);
 
       const email = userMock.email;
       const password = userMock.password;
-      const result = await UserService.login(email, password);
+      const result = await UserService.login({ email, password });
   
-      expect(result).to.be.deep.equal({ hasToken: false});
+      expect(result).to.be.deep.equal(userMock);
     });
   });
 
   // describe('teste do endpoint /register', function () {
   //   it('cadastro realizado com sucesso', async function () {
-  //     sinon.stub(User, 'create').resolves(userMock);
+  //     sinon.stub(UserService, 'create').resolves(userMock);
 
   //     const email = userMock.email;
   //     const password = userMock.password;
-  //     const result = await User.create({ where: { email, password } });
+  //     const result = await UserService.create(email, password);
   
   //     expect(result).to.be.deep.equal(userMock);
   //   });
