@@ -22,7 +22,7 @@ describe('Testes de unidade do service de products', function () {
   describe('teste do endpoint /products', function () {
     it('Busca por todos os produtos realizado com sucesso', async function () {
       sinon.stub(Product, 'findAll').resolves(productsMock);
-      const result = await Product.getAll();
+      const result = await ProductService.getAll();
   
       expect(result).to.be.deep.equal(productsMock);
       expect(result).to.be.an('array');
