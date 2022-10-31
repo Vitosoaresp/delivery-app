@@ -42,18 +42,33 @@ describe('Testes de unidade do controller de users', function () {
     });
   });
 
-  // describe('teste do endpoint /register', function () {
-  //   it('cadastro realizado com sucesso', async function () {
-  //     sinon.stub(User, 'findOne').resolves(null);
-  //     sinon.stub(User, 'create').resolves(userMock);
-  //     const result = await UserService.create({
-  //       name: userMock.name,
-  //       email: userMock.email,
-  //       password: '--adm2@21!!--',
-  //     });
-  //     expect(result).to.be.deep.equal(userMock);
-  //   });
-  // });
+  describe('teste do endpoint /register', function () {
+    const req = {};
+    const res = {};
+
+    before(async () => {
+      req.body = { email: userMock.email, password: userMock.password };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns(res);
+    });
+
+    it('cadastro realizado com sucesso', async function () {
+      sinon.stub(UserService, 'create').resolves(userMock);
+      await userController.create(req, res);
+
+      expect(res.status.calledWith(201)).to.be.true;
+      expect(res.json.calledWith(userMock)).to.be.true;
+    });
+
+    it('cadastro não realizado com sucesso - email já cadastrado', async function () {
+      sinon.stub(UserService, 'create').resolves({ message: 'User already registered', status: 409 });
+      await userController.create(req, res);
+      
+      expect(res.status.calledWith(409)).to.be.true;
+      expect(res.json.calledWith({ message: 'User already registered' })).to.be.true;
+    });
+  });
 
 
   afterEach(sinon.restore);
