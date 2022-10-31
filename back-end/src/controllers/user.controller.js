@@ -9,7 +9,7 @@ const userController = {
 
     if (status && message) return res.status(status).json({ message });
 
-    return res.status(200).json({ hasToken: false });
+    return res.status(200).json(user);
   },
 
   create: async (req, res) => {
