@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const jwtService = require('../utils/jwt');
 
 const { User } = require('../database/models');
 
@@ -9,7 +10,9 @@ const userService = {
       where: { email: data.email, password: passCryptor },
     });
     if (!user) return { status: 404, message: 'Not Found' };
-    return user;
+    const token = jwtService.createToken(user);
+    const result = { name: user.name, email: user.email, role: user.role };
+    return { ...result, token };
   },
 
   create: async (data) => {
