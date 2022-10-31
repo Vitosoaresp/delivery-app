@@ -24,5 +24,18 @@ describe('Testes de unidade do model de users', function () {
     });
   });
 
+  describe('teste do endpoint /register', function () {
+    it('cadastro realizado com sucesso', async function () {
+      sinon.stub(User, 'create').resolves(userMock);
+
+      const email = userMock.email;
+      const password = userMock.password;
+      const result = await User.create({ where: { email, password } });
+  
+      expect(result).to.be.deep.equal(userMock);
+    });
+  });
+
+
   afterEach(sinon.restore);
 });
