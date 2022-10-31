@@ -23,6 +23,19 @@ describe('Testes de unidade do service de users', function () {
   
       expect(result).to.be.deep.equal(userMock);
     });
+
+    it('login não realizado com sucesso - user não encontrado', async function () {
+      sinon.stub(User, 'findOne').resolves(null);
+
+      const email = userMock.email;
+      const password = userMock.password;
+      const result = await UserService.login({ email, password });
+  
+      expect(result).to.be.deep.equal({
+        message: 'Not Found',
+        status: 404,
+      });
+    });
   });
 
   describe('teste do endpoint /register', function () {
@@ -35,6 +48,38 @@ describe('Testes de unidade do service de users', function () {
         password: '--adm2@21!!--',
       });
       expect(result).to.be.deep.equal(userMock);
+    });
+
+    it('cadastro não realizdo realizado com sucesso - Name já cadastrado', async function () {
+      sinon.stub(User, 'findOne').resolves(userMock);
+      sinon.stub(User, 'create').resolves(null);
+
+      const result = await UserService.create({
+        name: userMock.name,
+        email: userMock.email,
+        password: '--adm2@21!!--',
+      });
+
+      expect(result).to.be.deep.equal({
+        message: 'User already registered',
+        status: 409,
+      });
+    });
+
+    it('cadastro não realizdo realizado com sucesso - Email já cadastrado', async function () {
+      sinon.stub(User, 'findOne').resolves(userMock);
+      sinon.stub(User, 'create').resolves(null);
+
+      const result = await UserService.create({
+        name: userMock.name,
+        email: userMock.email,
+        password: '--adm2@21!!--',
+      });
+
+      expect(result).to.be.deep.equal({
+        message: 'User already registered',
+        status: 409,
+      });
     });
   });
 
