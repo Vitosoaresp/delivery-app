@@ -1,8 +1,10 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { validateUsername,
+import {
   validateEmail,
   validatePassword,
+  validateUsername,
 } from '../helpers/validationForm';
 
 export default function Register() {
@@ -25,8 +27,21 @@ export default function Register() {
 
   function handleSubmitRegister(e) {
     e.preventDefault();
-    setErrorRegisterMessage(true);
-    history.push('/login');
+    axios
+      .post('http://localhost:3001/register', { name, email, password })
+      .then((response) => {
+        const userStorageConfig = {
+          name: response.data.name,
+          email: response.data.email,
+          role: response.data.role,
+        };
+        localStorage.setItem('user', JSON.stringify(userStorageConfig));
+        history.push('/customer/products');
+      })
+      .catch((error) => {
+        console.log(error);
+        setErrorRegisterMessage(true);
+      });
   }
 
   return (
@@ -57,7 +72,6 @@ export default function Register() {
               onChange={ ({ target }) => setEmail(target.value) }
               data-testid="common_register__input-email"
             />
-
           </label>
           <label htmlFor="password">
             Senha
@@ -69,7 +83,6 @@ export default function Register() {
               onChange={ ({ target }) => setPassword(target.value) }
               data-testid="common_register__input-password"
             />
-
           </label>
           <button
             disabled={ !isValidFormBtn }
@@ -80,12 +93,11 @@ export default function Register() {
           </button>
         </form>
         <div>
-          { errorRegisterMessage && (
-            <p
-              data-testid="common_register__element-invalid_register"
-            >
+          {errorRegisterMessage && (
+            <p data-testid="common_register__element-invalid_register">
               Usuário ou email já existe!
-            </p>)}
+            </p>
+          )}
         </div>
       </div>
     </div>
