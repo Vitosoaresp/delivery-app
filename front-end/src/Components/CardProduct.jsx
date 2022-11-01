@@ -14,6 +14,7 @@ export default function CardProduct({ id, cost, name, thumb }) {
           alt="drink"
           data-testid={ `customer_products__img-card-bg-image-${id}` }
           src={ thumb }
+          width="100px"
         />
       </div>
       <div>
