@@ -6,7 +6,7 @@ export default function Navbar() {
     localStorage.clear();
   }
 
-  const username = 'fi do biu';
+  const userData = JSON.parse(localStorage.getItem('user'));
   return (
     <nav>
       <div>
@@ -26,7 +26,7 @@ export default function Navbar() {
       </div>
       <div data-testid="customer_products__element-navbar-user-full-name">
         <div>
-          { username}
+          { userData.name }
         </div>
         <Link
           to="/"
