@@ -2,7 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default function Navbar() {
-  const username = 'fi do biu';
+  function handleToLogout() {
+    localStorage.clear();
+  }
+
+  const userData = JSON.parse(localStorage.getItem('user'));
   return (
     <nav>
       <div>
@@ -22,13 +26,15 @@ export default function Navbar() {
       </div>
       <div data-testid="customer_products__element-navbar-user-full-name">
         <div>
-          { username}
+          { userData.name }
         </div>
         <Link
           to="/"
           data-testid="customer_products__element-navbar-link-logout"
         >
-          Sair
+          <button type="button" onClick={ handleToLogout }>
+            Sair
+          </button>
         </Link>
       </div>
     </nav>
