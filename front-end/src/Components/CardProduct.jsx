@@ -1,8 +1,39 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { DeliveryContext } from '../context/DeliveryContext';
 
 export default function CardProduct({ id, cost, name, thumb }) {
   const [quantity, setQuantity] = useState(0);
+
+  const { cart, setCart } = useContext(DeliveryContext);
+
+  useEffect(() => {
+    if (quantity > 0) {
+      const product = { id, cost, name, thumb, quantity };
+      const existProduct = cart.find((item) => item.id === Number(id));
+      if (!existProduct) {
+        const newCart = [...cart, product];
+        setCart(newCart);
+      } else {
+        const newCart = cart.map((item) => {
+          if (item.id === Number(id)) {
+            return { ...item, quantity };
+          }
+          return item;
+        });
+        setCart(newCart);
+      }
+    } else {
+      const cartArray = cart.filter((item) => {
+        if (quantity === 0) {
+          return item.id !== id;
+        }
+        return item;
+      });
+      setCart(cartArray);
+    }
+    localStorage.setItem('carrinho', JSON.stringify(cart));
+  }, [quantity]);
 
   return (
     <div key={ id }>
@@ -37,7 +68,7 @@ export default function CardProduct({ id, cost, name, thumb }) {
           type="number"
           min="0"
           value={ quantity }
-          onChange={ ({ target: { value } }) => setQuantity(value) }
+          onChange={ ({ target: { value } }) => setQuantity(Number(value)) }
         />
         <button
           type="button"
