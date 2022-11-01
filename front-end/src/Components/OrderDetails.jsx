@@ -6,9 +6,9 @@ export default function OrderDetails({ name, cost }) {
     <div>
       {/* <div data-testid = {`customer_checkout__element-order-table-item-number`}>
             <div data-testid = {`customer_checkout__element-order-table-name`}></div>
-            <div data-testid = {`customer_checkout__element-order-table-quantity`}></div>
-            <div data-testid = {`customer_checkout__element-order-table-unit-price`}></div>
-            <div data-testid = {`customer_checkout__element-order-table-sub-total`}></div>
+            <div </div>
+            <div `}></div>
+            <div `}></div>
             <div data-testid = {``}></div>
             </div> */}
       <table>
@@ -21,10 +21,30 @@ export default function OrderDetails({ name, cost }) {
           <th>Remover Item</th>
         </tr>
         <tr>
-          <td>1</td>
-          <td data-testid= {`customer_checkout__element-order-table-name`}>{ name }</td>
-          <td>3</td>
-          <td>{cost}</td>
+          <td data-testid={ `customer_checkout__element-order-table-item-number${id}` }>
+            1
+          </td>
+
+          <td data-testid={ `customer_checkout__element-order-table-name${id}` }>
+            { name }
+
+          </td>
+
+          <td data-testid={ `customer_checkout__element-order-table-quantity${id}` }>
+            3
+          </td>
+
+          <td data-testid={ `customer_checkout__element-order-table-unit-price${id}` }>
+            {cost}
+          </td>
+
+          <td data-testid={ `customer_checkout__element-order-table-sub-total-${id}` }>
+            {3 * cost}
+          </td>
+
+          <td data-testid="customer_checkout__element-order-table-remove">
+            <button type="button">Remover</button>
+          </td>
         </tr>
       </table>
     </div>
@@ -36,9 +56,3 @@ OrderDetails.propTypes = {
   name: PropTypes.string,
   cost: PropTypes.string,
 }.isRequired;
-
-// 23: customer_checkout__element-order-table-name-<index>
-// - 24: customer_checkout__element-order-table-quantity-<index>
-// - 25: customer_checkout__element-order-table-unit-price-<index>
-// - 26: customer_checkout__element-order-table-sub-total-<index>
-// - 27: customer_checkout__element-order-table-remove-<index>
