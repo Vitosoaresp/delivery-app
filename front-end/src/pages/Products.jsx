@@ -1,9 +1,11 @@
 import { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import CardProduct from '../Components/CardProduct';
 import Navbar from '../Components/Navbar';
 import { DeliveryContext } from '../context/DeliveryContext';
 
 export default function Products() {
+  const history = useHistory();
   const { productsInfo, cart } = useContext(DeliveryContext);
 
   const totalPrice = cart.reduce((acc, { cost, quantity }) => {
@@ -17,6 +19,8 @@ export default function Products() {
       <button
         type="button"
         data-testid="customer_products__button-cart"
+        onClick={ () => history.push('/customer/checkout') }
+        disabled={ cart.length === 0 }
       >
         <span
           data-testid="customer_products__checkout-bottom-value"
