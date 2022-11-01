@@ -1,8 +1,11 @@
-import Navbar from '../Components/Navbar';
-import products from './mockProducts';
+import { useContext } from 'react';
 import CardProduct from '../Components/CardProduct';
+import Navbar from '../Components/Navbar';
+import { DeliveryContext } from '../context/DeliveryContext';
 
 export default function Products() {
+  const { productsInfo } = useContext(DeliveryContext);
+
   return (
     <div>
       <Navbar />
@@ -17,14 +20,13 @@ export default function Products() {
         </span>
       </button>
       <main>
-        {/* ESSE EH UM DADO MOCKADO PARA TESTAR OS CARDS, O MESMO DEVE VIR DO BANCO DE DADOS */}
-        {products.map((product) => (
+        {productsInfo !== undefined && productsInfo.map((product) => (
           <CardProduct
             key={ product.id }
             id={ product.id }
             cost={ product.price }
             name={ product.name }
-            thumb={ product.url_image }
+            thumb={ product.urlImage }
           />
         ))}
 
