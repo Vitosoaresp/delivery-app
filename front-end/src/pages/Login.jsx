@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import login from '../services/APIlogin';
 import logo from '../assets/logo.png';
 import { validateEmail, validatePassword } from '../helpers/validationForm';
+import login from '../services/APIlogin';
 
 export default function Login() {
   const history = useHistory();
@@ -22,7 +22,14 @@ export default function Login() {
   async function handleSubmitLogin(e) {
     try {
       e.preventDefault();
-      await login(email, password);
+      const { data } = await login(email, password);
+      const userData = {
+        email: data.email,
+        name: data.name,
+        role: data.role,
+        token: data.token,
+      };
+      localStorage.setItem('user', JSON.stringify(userData));
       history.push('/customer/products');
     } catch (error) {
       setErrorLoginMessage(true);
