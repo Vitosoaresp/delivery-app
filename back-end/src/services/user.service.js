@@ -10,7 +10,7 @@ const userService = {
       where: { email: data.email, password: passCryptor },
     });
     if (!user) return { status: 404, message: 'Not Found' };
-    const token = jwtService.createToken(user);
+    const token = jwtService.createToken(jwtService);
     const result = { name: user.name, email: user.email, role: user.role };
     return { ...result, token };
   },
