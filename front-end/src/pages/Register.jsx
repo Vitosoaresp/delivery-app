@@ -30,7 +30,12 @@ export default function Register() {
     axios
       .post('http://localhost:3001/register', { name, email, password })
       .then((response) => {
-        console.log(response.data);
+        const userStorageConfig = {
+          name: response.data.name,
+          email: response.data.email,
+          role: response.data.role,
+        };
+        localStorage.setItem('user', JSON.stringify(userStorageConfig));
         history.push('/customer/products');
       })
       .catch((error) => {
