@@ -37,6 +37,7 @@ export default function CardProduct({ id, cost, name, thumb }) {
           type="number"
           min="0"
           value={ quantity }
+          onChange={ ({ target: { value } }) => setQuantity(value) }
         />
         <button
           type="button"
