@@ -2,6 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default function Navbar() {
+  function handleToLogout() {
+    localStorage.clear();
+  }
+
   const username = 'fi do biu';
   return (
     <nav>
@@ -28,7 +32,9 @@ export default function Navbar() {
           to="/"
           data-testid="customer_products__element-navbar-link-logout"
         >
-          Sair
+          <button type="button" onClick={ handleToLogout }>
+            Sair
+          </button>
         </Link>
       </div>
     </nav>
