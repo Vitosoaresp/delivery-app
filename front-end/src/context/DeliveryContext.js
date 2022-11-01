@@ -6,6 +6,7 @@ export const DeliveryContext = createContext(null);
 
 export default function DeliveryContextProvider({ children }) {
   const [productsInfo, setProductsInfo] = useState([]);
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -18,11 +19,16 @@ export default function DeliveryContextProvider({ children }) {
   const providerValue = {
     productsInfo,
     setProductsInfo,
+    cart,
+    setCart,
   };
 
   return (
     <DeliveryContext.Provider
-      value={ useMemo(() => providerValue, [productsInfo, setProductsInfo]) }
+      value={ useMemo(
+        () => providerValue,
+        [productsInfo, setProductsInfo, cart, setCart],
+      ) }
     >
       {children}
     </DeliveryContext.Provider>
