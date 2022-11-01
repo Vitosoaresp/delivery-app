@@ -2,15 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default function OrderDetails({ name, cost }) {
+  const number = 3;
   return (
     <div>
-      {/* <div data-testid = {`customer_checkout__element-order-table-item-number`}>
-            <div data-testid = {`customer_checkout__element-order-table-name`}></div>
-            <div </div>
-            <div `}></div>
-            <div `}></div>
-            <div data-testid = {``}></div>
-            </div> */}
       <table>
         <tr>
           <th>Item</th>
@@ -39,7 +33,7 @@ export default function OrderDetails({ name, cost }) {
           </td>
 
           <td data-testid={ `customer_checkout__element-order-table-sub-total-${id}` }>
-            {3 * cost}
+            {number * cost}
           </td>
 
           <td data-testid="customer_checkout__element-order-table-remove">
@@ -47,6 +41,10 @@ export default function OrderDetails({ name, cost }) {
           </td>
         </tr>
       </table>
+      <p data-testid="customer_checkout__element-order-total-price">
+        { `Total: R$ ${subtotal.reduce((acc, curr) => acc + curr.subtotal, 0)} `}
+
+      </p>
     </div>
   );
 }
