@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import { DeliveryContext } from '../context/DeliveryContext';
 
-export default function OrderDetails({ index, quantity, name, cost }) {
+export default function OrderDetails({ id, index, quantity, name, cost }) {
+  const { cart, setCart } = useContext(DeliveryContext);
+
+  const removeProduct = (_id) => {
+    const products = cart.filter((product) => product.id !== _id);
+    setCart(products);
+    localStorage.setItem('carrinho', JSON.stringify(products));
+  };
+
   return (
     <tr>
       <td data-testid={ `customer_checkout__element-order-table-item-number-${index}` }>
@@ -26,7 +35,7 @@ export default function OrderDetails({ index, quantity, name, cost }) {
       </td>
 
       <td data-testid={ `customer_checkout__element-order-table-remove-${index}` }>
-        <button type="button">Remover</button>
+        <button onClick={ () => removeProduct(id) } type="button">Remover</button>
       </td>
     </tr>
   );
