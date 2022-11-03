@@ -6,8 +6,13 @@ const saleService = {
     return sales;
   },
 
-  getById: async (id) => {
-    const sale = await Sale.findByPk(id);
+  getAllByUserId: async (userId) => {
+    const sales = await Sale.findAll({ where: { userId } });
+    return sales;
+  },
+
+  getById: async (userId, saleId) => {
+    const sale = await Sale.findByPk(saleId, { where: { userId } });
     if (!sale) return { message: 'Sale not found' };
     return sale;
   },
