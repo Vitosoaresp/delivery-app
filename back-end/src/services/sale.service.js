@@ -10,7 +10,7 @@ const saleService = {
     const sale = await Sale.findByPk(id);
     if (!sale) return { message: 'Sale not found' };
     return sale;
-  }
-}
+  },
+};
 
 module.exports = saleService;
