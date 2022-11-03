@@ -4,11 +4,12 @@ const { Sale } = require('../database/models');
 
 const saleService = {
   create: async (data) => {
-    const { userId, totalPrice, deliveryAddress, delineryNumber, saleDate, status } = data;
+    const { userId, totalPrice, deliveryAddress, delineryNumber, saleDate } = data;
+    const status = 'Pendente';
     const newSale = await Sale.create({
-        userId, sellerId: 2, totalPrice, deliveryAddress, delineryNumber, saleDate, status,
+    userId, sellerId: 2, totalPrice, deliveryAddress, delineryNumber, saleDate, status,
     });
-    return newSale.id;
+    return { id: newSale.id };
   },
 };
 
