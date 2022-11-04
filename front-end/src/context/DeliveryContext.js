@@ -1,19 +1,27 @@
 import PropTypes from 'prop-types';
 import { createContext, useEffect, useMemo, useState } from 'react';
+import { fetchCustomerOrders } from '../services/fetchCustomerOrders';
 import fetchProducts from '../services/fetchProducts';
 
 export const DeliveryContext = createContext(null);
 
 export default function DeliveryContextProvider({ children }) {
   const [productsInfo, setProductsInfo] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
-    const getProducts = async () => {
-      const data = await fetchProducts();
-      setProductsInfo(data);
+    const getData = async () => {
+      const products = await fetchProducts();
+      setProductsInfo(products);
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        const { token } = JSON.parse(userData);
+        const ordersData = await fetchCustomerOrders(token);
+        setOrders(ordersData);
+      }
     };
-    getProducts();
+    getData();
   }, []);
 
   const providerValue = {
@@ -21,13 +29,14 @@ export default function DeliveryContextProvider({ children }) {
     setProductsInfo,
     cart,
     setCart,
+    orders,
   };
 
   return (
     <DeliveryContext.Provider
       value={ useMemo(
         () => providerValue,
-        [productsInfo, setProductsInfo, cart, setCart],
+        [productsInfo, setProductsInfo, cart, setCart, orders],
       ) }
     >
       {children}
