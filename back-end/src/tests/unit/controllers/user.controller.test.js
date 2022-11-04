@@ -13,6 +13,14 @@ userMock = {
   role: 'customer',
 }
 
+userMockWithToken = {
+  id: 1,
+  name: 'Delivery App Admin',
+  email: 'adm@deliveryapp.com',
+  role: 'customer',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjoxLCJuYW1lIjoiRGVsaXZlcnkgQXBwIEFkbWluIiwiZW1haWwiOiJhZG1AZGVsaXZlcnlhcHAuY29tIiwicm9sZSI6ImN1c3RvbWVyIn0sImlhdCI6MTY2NzUyMjI1MX0.f1wvneXNBAyf5VC6djyzFthpCUL0lAkGyziP2MolSVo'
+}
+
 describe('Testes de unidade do controller de users', function () {
   describe('teste do endpoint /login', function () {
     const req = {};
@@ -26,11 +34,11 @@ describe('Testes de unidade do controller de users', function () {
     });
 
     it('login realizado com sucesso', async function () {
-      sinon.stub(UserService, 'login').resolves(userMock);
+      sinon.stub(UserService, 'login').resolves(userMockWithToken);
       await userController.login(req, res);
 
       expect(res.status.calledWith(200)).to.be.true;
-      expect(res.json.calledWith({ hasToken: false })).to.be.true;
+      expect(res.json.calledWith(userMockWithToken)).to.be.true;
     });
 
     it('login não realizado com sucesso - Dados invalidos ou Inexistentes', async function () {
