@@ -5,15 +5,19 @@
 //   checkPropertyExists,
 // } = require('sequelize-test-helpers');
 
-// const { Sale } = require('../../../database/models');
+// const SaleModel = require('../../../database/models/sale.model');
 
 // describe('Testes de unidade do model de sales', function () {
 //   describe('teste do endpoint /sales', function () {
-//     const saleModel = new Sale(sequelize, dataTypes);
-//     const sale = saleModel;
+//     const Sale = SaleModel(sequelize, dataTypes);
+//     const sale = new Sale();
 
 //     it('model possui o nome "Sale"', function () {
-//       checkModelName(saleModel)('Sale');
+//       checkModelName(sale)('');
+//     });
+
+//     it('possui as propriedades "fullName" e "email"', () => {
+//       ['userId', 'sellerId', 'email'].forEach(checkPropertyExists(sale));
 //     });
 //   });
 // });
