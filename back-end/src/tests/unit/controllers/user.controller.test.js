@@ -86,6 +86,5 @@ describe('Testes de unidade do controller de users', function () {
     });
   });
 
-
   afterEach(sinon.restore);
 });
