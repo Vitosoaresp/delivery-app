@@ -21,6 +21,12 @@ const saleController = {
     const sale = await saleService.getById(userId, saleId);
     return res.status(200).json(sale);
   },
+
+  create: async (req, res) => {
+    const { data } = req.user;
+    const sale = await saleService.create({ userId: data.id, ...req.body });
+    return res.status(201).json(sale);
+  },
 };
 
 module.exports = saleController;

@@ -10,8 +10,8 @@ const userService = {
       where: { email: data.email, password: passCryptor },
     });
     if (!user) return { status: 404, message: 'Not Found' };
-    const token = jwtService.createToken({ userId: user.id });
-    const result = { name: user.name, email: user.email, role: user.role };
+    const result = { userId: user.id, name: user.name, email: user.email, role: user.role };
+    const token = jwtService.createToken(result);
     return { ...result, token };
   },
 
@@ -31,6 +31,11 @@ const userService = {
   getIdByEmail: async (email) => {
     const user = await User.findOne({ where: { email } });
     return user.id;
+  },
+
+  getSellers: async () => {
+    const sellers = await User.findAll({ where: { role: 'seller' } });
+    return sellers;
   },
 };
 
