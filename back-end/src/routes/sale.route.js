@@ -10,7 +10,4 @@ router.get('/sales/:userId', saleController.getAllByUserId);
 router.get('/sales/:userId/:saleId', saleController.getById);
 router.post('/sales', validateJWT, saleController.create);
 
-
-
-
 module.exports = router;
