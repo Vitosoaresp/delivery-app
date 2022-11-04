@@ -12,6 +12,16 @@ userMock = {
   role: 'customer',
 }
 
+const sellerMock = [
+  {
+    id: 2,
+    name: 'Fulana Pereira',
+    email: 'fulana@deliveryapp.com',
+    password: '3c28d2b0881bf46457a853e0b07531c6',
+    role: 'seller',
+  }
+]
+
 describe('Testes de unidade do service de users', function () {
   describe('teste do endpoint /login', function () {
     it('login realizado com sucesso', async function () {
@@ -80,6 +90,14 @@ describe('Testes de unidade do service de users', function () {
         message: 'User already registered',
         status: 409,
       });
+    });
+  });
+
+  describe('teste do endpoint /users/sellers', function () {
+    it('buscando todos os sellers com sucesso', async function () {
+      sinon.stub(User, 'findAll').resolves(sellerMock);
+      const result = await UserService.getSellers();
+      expect(result).to.be.deep.equal(sellerMock);
     });
   });
 
