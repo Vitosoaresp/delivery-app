@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import Navbar from '../Components/Navbar';
 import OrderDetails from '../Components/OrderDetails';
@@ -6,23 +7,38 @@ import { DeliveryContext } from '../context/DeliveryContext';
 import createSale from '../services/createSales';
 
 export default function Checkout() {
-  const { cart } = useContext(DeliveryContext);
+  const { cart, sellers } = useContext(DeliveryContext);
   const [deliveryAddress, setDeliveryAddress] = useState('');
   const [deliveryNumber, setDeliveryNumber] = useState('');
-  const [seller, setSeller] = useState('');
+  const [seller, setSeller] = useState(2);
+  const history = useHistory();
 
   const { token } = JSON.parse(localStorage.getItem('user'));
-  console.log(token);
 
   const totalPrice = cart.reduce((acc, { cost, quantity }) => {
     const price = cost.replace(',', '.');
     return acc + (Number(price) * quantity);
   }, 0);
-  const data = { deliveryAddress, deliveryNumber, seller, totalPrice };
+
+  const data = {
+    deliveryAddress,
+    deliveryNumber,
+    sellerId: Number(seller),
+    totalPrice,
+  };
 
   const finishSale = async () => {
     const sale = await createSale(data, token);
-    console.log(sale);
+    const { data: createdSale } = sale;
+    history.push(`/customer/orders/${createdSale.id}`);
+  };
+
+  const renderOption = () => {
+    const optionSellers = sellers.map((currSellers) => {
+      const { id, name } = currSellers;
+      return <option key={ id } value={ id }>{ name }</option>;
+    });
+    return optionSellers;
   };
 
   return (
@@ -61,7 +77,7 @@ export default function Checkout() {
         onChange={ ({ target }) => setSeller(target.value) }
         value={ seller }
       >
-        <option value="2">bill delivery</option>
+        { sellers.length > 0 && renderOption() }
       </select>
       <input
         type="text"
