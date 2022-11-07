@@ -1,9 +1,19 @@
-import { useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import NavBar from '../Components/Navbar';
 import { DeliveryContext } from '../context/DeliveryContext';
+import { fetchCustomerOrders } from '../services/fetchCustomerOrders';
 
 export default function Orders() {
-  const { orders } = useContext(DeliveryContext);
+  const { token } = useContext(DeliveryContext);
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    const getOrders = async () => {
+      const ordersData = await fetchCustomerOrders(token);
+      setOrders(ordersData);
+    };
+    getOrders();
+  }, []);
 
   const PAD_START = 3;
 
