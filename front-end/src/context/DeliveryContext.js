@@ -45,10 +45,10 @@ export default function DeliveryContextProvider({ children }) {
 
   return (
     <DeliveryContext.Provider
-      value={useMemo(
+      value={ useMemo(
         () => providerValue,
         [productsInfo, setProductsInfo, cart, setCart, orders, sellers],
-      )}
+      ) }
     >
       {children}
     </DeliveryContext.Provider>
