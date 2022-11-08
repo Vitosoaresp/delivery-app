@@ -13,17 +13,10 @@ const saleController = {
   },
 
   getUniqueById: async (req, res) => {
-    try {
-      const { saleId } = req.params;
-      const token = req.headers.authorization;
-      const { data: { userId } } = req.user;
-      console.log(userId);
-      const sale = await saleService.getById(userId, saleId);
-      return res.status(200).json(sale);
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json({ message: error.message });
-    }
+    const { saleId } = req.params;
+    const { data: { userId } } = req.user;
+    const sale = await saleService.getById(userId, saleId);
+    return res.status(200).json(sale);
   },
 
   create: async (req, res) => {
