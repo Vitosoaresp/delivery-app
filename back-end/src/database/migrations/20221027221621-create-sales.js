@@ -37,7 +37,7 @@ module.exports = {
       saleDate: {
         type: Sequelize.DATE,
         allowNull: false,
-        defaultValue: new Date(),
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         field: 'sale_date',
       },
       status: {
