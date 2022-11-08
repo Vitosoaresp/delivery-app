@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const moment = require('moment');
-// const jwtService = require('../utils/jwt');
 const saleProductService = require('./saleProduct.service');
 const { Sale } = require('../database/models');
 
