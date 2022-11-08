@@ -5,12 +5,12 @@ const { Sale } = require('../../../database/models');
 const SaleService = require('../../../services/sale.service');
 
 const sale = { 
-    userId: 1,
-    sellerId: 2,
-    totalPrice: 10.0,
-    deliveryAddress: 'rua 2',
-    delineryNumber: '121',
-    saleDate: '03/11/2022 15:47',
+  userId: 1,
+  sellerId: 2,
+  totalPrice: 10.0,
+  deliveryAddress: 'rua 2',
+  delineryNumber: '121',
+  saleDate: '03/11/2022 15:47',
 }
 
 describe('Testes de unidade do service de Sales', function () {
@@ -21,6 +21,16 @@ describe('Testes de unidade do service de Sales', function () {
   
       expect(result).to.be.deep.equal({ id: 1 });
       expect(result).to.be.an('object');
+    });
+  });
+
+  describe('teste do endpoint /sales/seller/id', function () {
+    it('Busca de Sales por sellerId feito com sucesso', async function () {
+      sinon.stub(Sale, 'findAll').resolves([sale]);
+      const result = await SaleService.getBySeller([sale]);
+  
+      expect(result).to.be.deep.equal([sale]);
+      expect(result).to.be.an('array');
     });
   });
 
