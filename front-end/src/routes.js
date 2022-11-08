@@ -1,5 +1,6 @@
 import { Redirect, Route, Switch } from 'react-router-dom';
 import Checkout from './pages/Checkout';
+import CustomerOrderById from './pages/CustomerOrderById';
 import Login from './pages/Login';
 import Orders from './pages/Orders';
 import Products from './pages/Products';
@@ -22,6 +23,9 @@ export default function Routes() {
       </Route>
       <Route path="/customer/checkout">
         <Checkout />
+      </Route>
+      <Route path="/customer/orders/:id">
+        <CustomerOrderById />
       </Route>
       <Route path="/customer/orders">
         <Orders />

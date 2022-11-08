@@ -12,7 +12,7 @@ export async function fetchCustomerOrders(token) {
 export async function fetchCustomerOrdersById(id, token) {
   return axios.get(`http://localhost:3001/sales/${id}`, {
     headers: {
-      Authorization: token,
+      authorization: token,
     },
   })
     .then((response) => response.data);
