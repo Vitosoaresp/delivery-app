@@ -24,6 +24,7 @@ export default function Login() {
       e.preventDefault();
       const { data } = await login(email, password);
       const userData = {
+        id: data.id,
         email: data.email,
         name: data.name,
         role: data.role,

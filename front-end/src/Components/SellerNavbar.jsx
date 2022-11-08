@@ -25,7 +25,10 @@ export default function Navbar() {
           to="/"
           data-testid="customer_products__element-navbar-link-logout"
         >
-          <button type="button" onClick={ handleToLogout }>
+          <button
+            type="button"
+            onClick={ handleToLogout }
+          >
             Sair
           </button>
         </Link>
