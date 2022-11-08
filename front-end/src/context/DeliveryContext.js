@@ -10,11 +10,17 @@ export default function DeliveryContextProvider({ children }) {
   const [productsInfo, setProductsInfo] = useState([]);
   const [sellers, setSellers] = useState([]);
   const [cart, setCart] = useState([]);
+  const [token, setToken] = useState('');
 
   useEffect(() => {
     const getProducts = async () => {
-      const data = await fetchProducts();
-      setProductsInfo(data);
+      const products = await fetchProducts();
+      setProductsInfo(products);
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        const { token: userToken } = JSON.parse(userData);
+        setToken(userToken);
+      }
     };
 
     const fetchSellers = async () => {
@@ -31,6 +37,7 @@ export default function DeliveryContextProvider({ children }) {
     setProductsInfo,
     cart,
     setCart,
+    token,
     sellers,
   };
 
@@ -38,7 +45,7 @@ export default function DeliveryContextProvider({ children }) {
     <DeliveryContext.Provider
       value={ useMemo(
         () => providerValue,
-        [productsInfo, setProductsInfo, cart, setCart, sellers],
+        [productsInfo, setProductsInfo, cart, setCart, token, sellers],
       ) }
     >
       {children}
