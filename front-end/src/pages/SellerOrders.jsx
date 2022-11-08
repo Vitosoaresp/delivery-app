@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 // import { useHistory } from 'react-router-dom';
 
-// import Navbar from '../Components/Navbar';
+import SellerNavbar from '../Components/SellerNavbar';
 // import OrderDetails from '../Components/OrderDetails';
 // import { DeliveryContext } from '../context/DeliveryContext';
 // import createSale from '../services/createSales';
@@ -18,6 +18,7 @@ export default function Checkout() {
 
   return (
     <div>
+      <SellerNavbar />
       Bem-vindo, Vendedor!
     </div>
   );
