@@ -30,7 +30,8 @@ export default function Login() {
         token: data.token,
       };
       localStorage.setItem('user', JSON.stringify(userData));
-      history.push('/customer/products');
+      if (userData.role === 'seller') history.push('/seller/orders');
+      if (userData.role === 'customer') history.push('/customer/products');
     } catch (error) {
       setErrorLoginMessage(true);
     }
