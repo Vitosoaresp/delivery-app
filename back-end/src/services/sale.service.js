@@ -14,11 +14,11 @@ const saleService = {
     try {
       const { userId, sellerId, totalPrice, deliveryAddress, deliveryNumber, cart } = data;
       const status = 'Pendente';
-      const saleDate = moment().toISOString();
+      // const saleDate = moment().toISOString();
       const newSale = await Sale.create({
-      userId, sellerId, totalPrice, deliveryAddress, deliveryNumber, saleDate, status,
+        userId, sellerId, totalPrice, deliveryAddress, deliveryNumber, status,
       }, { transaction: t });
-       cart.forEach(async ({ id, quantity }) => {
+      cart.forEach(async ({ id, quantity }) => {
         await saleProductService.create(
           { saleId: newSale.id, productId: id, quantity }, { transaction: t },
         );
