@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const moment = require('moment');
+// const moment = require('moment');
 const saleProductService = require('./saleProduct.service');
 const { Sale } = require('../database/models');
 
