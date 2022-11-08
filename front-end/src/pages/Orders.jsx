@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import NavBar from '../Components/Navbar';
@@ -36,7 +37,8 @@ export default function Orders() {
             </div>
             <div>
               <div data-testid={ `customer_orders__element-order-date-${order.id}` }>
-                {new Date(order.saleDate).toLocaleDateString()}
+                {moment(order.saleDate).format('L')}
+                {console.log(new Date(order.saleDate).toLocaleDateString())}
               </div>
               <div data-testid={ `customer_orders__element-card-price-${order.id}` }>
                 {`R$ ${order.totalPrice.replace('.', ',')}`}
