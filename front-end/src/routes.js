@@ -22,6 +22,9 @@ export default function Routes() {
       <Route path="/customer/checkout">
         <Checkout />
       </Route>
+      <Route path="/seller/orders">
+        <Checkout />
+      </Route>
     </Switch>
   );
 }
