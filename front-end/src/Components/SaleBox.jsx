@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 import PropTypes from 'prop-types';
 
 export default function SaleBox(
@@ -12,23 +14,25 @@ export default function SaleBox(
   },
 ) {
   return (
-    <div>
-      <div data-testid={ `seller_orders__element-order-id-${id}` }>
-        <p>{`Pedido 00${id}`}</p>
+    <Link to={ `/seller/orders/${id}` }>
+      <div>
+        <div data-testid={ `seller_orders__element-order-id-${id}` }>
+          <p>{`Pedido 00${id}`}</p>
+        </div>
+        <div data-testid={ `seller_orders__element-delivery-status-${id}` }>
+          <p>{status}</p>
+        </div>
+        <div data-testid={ `seller_orders__element-order-date-${id}` }>
+          <p>{saleDate}</p>
+        </div>
+        <div data-testid={ `seller_orders__element-card-price-${id}` }>
+          <p>{totalPrice}</p>
+        </div>
+        <div data-testid={ `seller_orders__element-card-address-${id}` }>
+          <p>{`${deliveryAddress}, ${deliveryNumber}`}</p>
+        </div>
       </div>
-      <div data-testid={ `seller_orders__element-delivery-status-${id}` }>
-        <p>{status}</p>
-      </div>
-      <div data-testid={ `seller_orders__element-order-date-${id}` }>
-        <p>{saleDate}</p>
-      </div>
-      <div data-testid={ `seller_orders__element-card-price-${id}` }>
-        <p>{totalPrice}</p>
-      </div>
-      <div data-testid={ `seller_orders__element-card-address-${id}` }>
-        <p>{`${deliveryAddress}, ${deliveryNumber}`}</p>
-      </div>
-    </div>
+    </Link>
   );
 }
 

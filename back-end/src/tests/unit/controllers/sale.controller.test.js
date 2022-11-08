@@ -51,6 +51,7 @@ describe('Testes de unidade do controller de sales', function () {
     const res = {};
 
     before(async () => {
+      req.params = 2;
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns(res);
     });

@@ -10,7 +10,7 @@ const userService = {
       where: { email: data.email, password: passCryptor },
     });
     if (!user) return { status: 404, message: 'Not Found' };
-    const result = { id: user.id, name: user.name, email: user.email, role: user.role };
+    const result = { userId: user.id, name: user.name, email: user.email, role: user.role };
     const token = await jwtService.createToken(result);
     return { ...result, token };
   },
@@ -22,10 +22,15 @@ const userService = {
     if (userVerifyName || userVerifyEmail) {
       return { status: 409, message: 'User already registered' };
     }
-    const newUser = await User.create({ 
+    const newUser = await User.create({
       name: data.name, email: data.email, password: passCryptor, role: 'customer',
     });
     return newUser;
+  },
+
+  getIdByEmail: async (email) => {
+    const user = await User.findOne({ where: { email } });
+    return user.id;
   },
 
   getSellers: async () => {

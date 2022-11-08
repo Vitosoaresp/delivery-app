@@ -11,6 +11,22 @@ export default function Login() {
   const [isValidForm, setIsValidForm] = useState(false);
   const [errorLoginMessage, setErrorLoginMessage] = useState(false);
 
+  useEffect(() => {
+    const userStorage = JSON.parse(localStorage.getItem('user'));
+    if (userStorage) {
+      switch (userStorage.role) {
+      case 'seller':
+        history.push('/seller/orders');
+        break;
+      case 'administrator':
+        history.push('/admin/manage');
+        break;
+      default:
+        history.push('/customer/products');
+      }
+    }
+  }, []);
+
   function handleValidadeForm() {
     const isValidEmail = validateEmail(email);
     const isValidPassword = validatePassword(password);
@@ -24,7 +40,7 @@ export default function Login() {
       e.preventDefault();
       const { data } = await login(email, password);
       const userData = {
-        id: data.id,
+        id: data.userId,
         email: data.email,
         name: data.name,
         role: data.role,
