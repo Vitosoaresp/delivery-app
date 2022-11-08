@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import NavBar from '../Components/Navbar';
 import { DeliveryContext } from '../context/DeliveryContext';
@@ -10,11 +10,13 @@ export default function Orders() {
 
   useEffect(() => {
     const getOrders = async () => {
-      const ordersData = await fetchCustomerOrders(token);
-      setOrders(ordersData);
+      if (token) {
+        const ordersData = await fetchCustomerOrders(token);
+        setOrders(ordersData);
+      }
     };
     getOrders();
-  }, []);
+  }, [token]);
 
   const PAD_START = 3;
 
