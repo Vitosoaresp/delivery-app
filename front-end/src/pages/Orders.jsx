@@ -38,7 +38,6 @@ export default function Orders() {
             <div>
               <div data-testid={ `customer_orders__element-order-date-${order.id}` }>
                 {moment(order.saleDate).format('L')}
-                {console.log(new Date(order.saleDate).toLocaleDateString())}
               </div>
               <div data-testid={ `customer_orders__element-card-price-${order.id}` }>
                 {`R$ ${order.totalPrice.replace('.', ',')}`}
