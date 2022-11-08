@@ -8,18 +8,23 @@ const saleController = {
   },
 
   getAllByUserId: async (req, res) => {
-    const token = req.headers.authorization;
-    const { userId } = jwtService.validateToken(token);
+    const { data: { userId } } = req.user;
     const sales = await saleService.getAllByUserId(userId);
     return res.status(200).json(sales);
   },
 
-  getById: async (req, res) => {
-    const { saleId } = req.params;
-    const token = req.headers.authorization;
-    const { userId } = jwtService.validateToken(token);
-    const sale = await saleService.getById(userId, saleId);
-    return res.status(200).json(sale);
+  getUniqueById: async (req, res) => {
+    try {
+      const { saleId } = req.params;
+      const token = req.headers.authorization;
+      const { data: { userId } } = req.user;
+      console.log(userId);
+      const sale = await saleService.getById(userId, saleId);
+      return res.status(200).json(sale);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: error.message });
+    }
   },
 
   create: async (req, res) => {

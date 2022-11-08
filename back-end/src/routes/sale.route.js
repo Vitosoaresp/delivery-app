@@ -5,9 +5,9 @@ const validateJWT = require('../middlewares/validateJWT');
 
 const router = Router();
 
-router.get('/sales', saleController.getAll);
-router.get('/sales/:userId', saleController.getAllByUserId);
-router.get('/sales/:userId/:saleId', saleController.getById);
+router.get('/sales', validateJWT, saleController.getAllByUserId);
+// router.get('/sales/:userId', saleController.getAllByUserId);
+router.get('/sales/:saleId', validateJWT, saleController.getUniqueById);
 router.post('/sales', validateJWT, saleController.create);
 
 module.exports = router;
