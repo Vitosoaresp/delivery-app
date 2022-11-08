@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import NavBar from '../Components/Navbar';
 import { DeliveryContext } from '../context/DeliveryContext';
 import { fetchCustomerOrders } from '../services/fetchCustomerOrders';
@@ -22,7 +23,7 @@ export default function Orders() {
       <NavBar />
       <main>
         {orders.map((order) => (
-          <div key={ order.id }>
+          <Link key={ order.id } to={ `/customer/orders/${order.id}` }>
             <div
               data-testid={ `customer_orders__element-order-id-${order.id}` }
             >
@@ -39,7 +40,7 @@ export default function Orders() {
                 {`R$ ${order.totalPrice.replace('.', ',')}`}
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </main>
     </>
