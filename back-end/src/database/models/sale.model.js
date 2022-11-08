@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     totalPrice: DataTypes.DECIMAL(9,2),
     deliveryAddress: DataTypes.STRING,
     deliveryNumber: DataTypes.STRING,
-    saleDate: DataTypes.DATE,
+    saleDate: DataTypes.NOW,
     status: DataTypes.STRING,
   },
   {
@@ -27,9 +27,9 @@ module.exports = (sequelize, DataTypes) => {
 
   Sale.associate = (models) => {
     Sale.belongsTo(models.User,
-      { foreignKey: 'user_id', as: 'users' });
+      { foreignKey: 'userId', as: 'users' });
     Sale.belongsTo(models.User,
-      { foreignKey: 'seller_id', as: 'sellers' });
+      { foreignKey: 'sellerId', as: 'sellers' });
   };
 
   return Sale;
