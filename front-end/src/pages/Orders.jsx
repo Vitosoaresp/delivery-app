@@ -37,7 +37,7 @@ export default function Orders() {
             </div>
             <div>
               <div data-testid={ `customer_orders__element-order-date-${order.id}` }>
-                {moment(order.saleDate).format('L')}
+                {moment(order.saleDate).locale('pt-br').format('DD/MM/YYYY')}
               </div>
               <div data-testid={ `customer_orders__element-card-price-${order.id}` }>
                 {`R$ ${order.totalPrice.replace('.', ',')}`}
