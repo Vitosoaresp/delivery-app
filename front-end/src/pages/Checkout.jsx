@@ -5,6 +5,7 @@ import Navbar from '../Components/Navbar';
 import OrderDetails from '../Components/OrderDetails';
 import { DeliveryContext } from '../context/DeliveryContext';
 import createSale from '../services/createSales';
+// import createSaleProduct from '../services/CreateSalesProducts';
 
 export default function Checkout() {
   const { cart, sellers } = useContext(DeliveryContext);
@@ -25,12 +26,14 @@ export default function Checkout() {
     deliveryNumber,
     sellerId: Number(seller),
     totalPrice,
+    cart,
   };
 
   const finishSale = async () => {
     const sale = await createSale(data, token);
-    const { data: createdSale } = sale;
-    history.push(`/customer/orders/${createdSale.id}`);
+    console.log(sale);
+    const { data: { id } } = sale;
+    history.push(`/customer/orders/${id}`);
   };
 
   const renderOption = () => {
