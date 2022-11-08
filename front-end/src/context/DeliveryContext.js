@@ -19,7 +19,6 @@ export default function DeliveryContextProvider({ children }) {
       const userData = localStorage.getItem('user');
       if (userData) {
         const { token: userToken } = JSON.parse(userData);
-        console.log(userToken);
         setToken(userToken);
       }
     };

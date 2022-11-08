@@ -1,5 +1,4 @@
 const saleService = require('../services/sale.service');
-const jwtService = require('../utils/jwt');
 
 const saleController = {
   getAll: async (_req, res) => {
