@@ -7,30 +7,33 @@ import { fetchCustomerOrdersById } from '../services/fetchCustomerOrders';
 export default function CustomerOrderById() {
   const { id } = useParams();
   const { token, sellers } = useContext(DeliveryContext);
-  const [orderData, setOrderData] = useState(null);
+  const [orderData, setOrderData] = useState();
 
   const PAD_START = 3;
 
   useEffect(() => {
     const getOrder = async () => {
-      const order = await fetchCustomerOrdersById(id, token);
-      console.log(order);
-      const seller = sellers.find((sell) => sell.id === order.sellerId);
-      setOrderData({ ...order, sellerName: seller.name });
+      if (token) {
+        const order = await fetchCustomerOrdersById(id, token);
+        const seller = sellers.find((sell) => sell.id === order.sellerId);
+        order.sellerName = seller.name || 'Fulana Pereira';
+        setOrderData(order);
+      }
     };
+    console.log('aqui');
     getOrder();
-  }, [token]);
+  }, [token, id]);
 
   return (
     <>
       <Navbar />
       <h1>Detalhe do Pedido</h1>
-      {orderData !== null && (
+      {orderData && (
         <div>
           <p
             data-testid="customer_order_details__element-order-details-label-order-id"
           >
-            {orderData && `Pedido ${String(orderData.id).padStart(PAD_START, '0')}`}
+            {`Pedido ${String(id).padStart(PAD_START, '0')}`}
           </p>
           <span>
             P. vend:
@@ -46,16 +49,19 @@ export default function CustomerOrderById() {
             {new Date(orderData.saleDate).toLocaleDateString()}
           </p>
           <p
-            data-testid="
-            customer_order_details__element-order-details-label-delivery-status"
+            data-testid={
+              `customer_order_details__element-order-details-label-delivery-status-${id}`
+            }
           >
             {orderData.status}
           </p>
-          <p
+          <button
+            type="button"
+            disabled
             data-testid="customer_order_details__button-delivery-check"
           >
             MARCAR COMO ENTREGE
-          </p>
+          </button>
         </div>
       )}
       <table>
@@ -69,7 +75,7 @@ export default function CustomerOrderById() {
           </tr>
         </thead>
         <tbody>
-          {orderData !== null && orderData.sales.map((product, i) => (
+          {orderData !== undefined && orderData.sales.map((product, i) => (
             <tr key={ product.id }>
               <td
                 data-testid={
@@ -97,14 +103,15 @@ export default function CustomerOrderById() {
                   `customer_order_details__element-order-table-unit-price-${i}`
                 }
               >
-                {product.price}
+                {Number(product.price).toFixed(2).replace('.', ',')}
               </td>
               <td
                 data-testid={
                   `customer_order_details__element-order-table-sub-total-${i}`
                 }
               >
-                {product.price * product.SaleProduct.quantity}
+                {(product.price * product.SaleProduct.quantity)
+                  .toFixed(2).replace('.', ',')}
               </td>
             </tr>
           ))}
@@ -115,7 +122,7 @@ export default function CustomerOrderById() {
         <span
           data-testid="customer_order_details__element-order-total-price"
         >
-          {orderData && orderData.totalPrice}
+          {orderData && Number(orderData.totalPrice).toFixed(2).replace('.', ',')}
         </span>
       </p>
     </>
