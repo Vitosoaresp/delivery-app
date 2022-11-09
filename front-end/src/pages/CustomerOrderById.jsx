@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from '../Components/Navbar';
@@ -6,7 +7,7 @@ import { fetchCustomerOrdersById } from '../services/fetchCustomerOrders';
 
 export default function CustomerOrderById() {
   const { id } = useParams();
-  const { token, sellers } = useContext(DeliveryContext);
+  const { token } = useContext(DeliveryContext);
   const [orderData, setOrderData] = useState();
 
   const PAD_START = 3;
@@ -15,55 +16,50 @@ export default function CustomerOrderById() {
     const getOrder = async () => {
       if (token) {
         const order = await fetchCustomerOrdersById(id, token);
-        const seller = sellers.find((sell) => sell.id === order.sellerId);
-        order.sellerName = seller.name || 'Fulana Pereira';
         setOrderData(order);
       }
     };
-    console.log('aqui');
     getOrder();
   }, [token, id]);
 
   return (
     <>
       <Navbar />
-      <h1>Detalhe do Pedido</h1>
-      {orderData && (
-        <div>
-          <p
-            data-testid="customer_order_details__element-order-details-label-order-id"
-          >
-            {`Pedido ${String(id).padStart(PAD_START, '0')}`}
-          </p>
-          <span>
-            P. vend:
-          </span>
-          <span
-            data-testid="customer_order_details__element-order-details-label-seller-name"
-          >
-            {orderData.sellerName}
-          </span>
-          <p
-            data-testid="customer_order_details__element-order-details-label-order-date"
-          >
-            {new Date(orderData.saleDate).toLocaleDateString()}
-          </p>
-          <p
-            data-testid={
-              `customer_order_details__element-order-details-label-delivery-status-${id}`
-            }
-          >
-            {orderData.status}
-          </p>
-          <button
-            type="button"
-            disabled
-            data-testid="customer_order_details__button-delivery-check"
-          >
-            MARCAR COMO ENTREGE
-          </button>
-        </div>
-      )}
+      Detalhe do Pedido
+      <div>
+        <p
+          data-testid="customer_order_details__element-order-details-label-order-id"
+        >
+          {`Pedido ${String(id).padStart(PAD_START, '0')}`}
+        </p>
+        <span>
+          P. vend:
+        </span>
+        <span
+          data-testid="customer_order_details__element-order-details-label-seller-name"
+        >
+          {orderData && orderData.sellers.name}
+        </span>
+        <p
+          data-testid="customer_order_details__element-order-details-label-order-date"
+        >
+          {orderData && moment(orderData.saleDate).locale('pt-br').format('DD/MM/YYYY')}
+        </p>
+        <p
+          data-testid={
+            `customer_order_details__element-order-details-label-delivery-status-${id}`
+          }
+        >
+          {orderData && orderData.status}
+        </p>
+        <button
+          type="button"
+          disabled
+          data-testid="customer_order_details__button-delivery-check"
+        >
+          MARCAR COMO ENTREGE
+        </button>
+      </div>
       <table>
         <thead>
           <tr>
