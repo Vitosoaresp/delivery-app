@@ -29,6 +29,17 @@ const saleService = {
       await t.rollback();
     }
   },
+  // retornar venda por Id e incluir os produtos dessa venda
+  getSaleById: async (id) => {
+    try {
+      const sale = await Sale.findOne({ where: { id }, include: { all: true } });
+      if (!sale) return { error: 'Sale not found' };
+      return sale;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
 };
 
 module.exports = saleService;
