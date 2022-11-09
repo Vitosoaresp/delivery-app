@@ -10,9 +10,12 @@ import {
   userAlreadyExists,
 } from './mocks/registerMock';
 
-jest.mock('axios');
-
 describe('Register page', () => {
+  // beforeEach(() => {
+  // jest.mock('axios');
+  // axios.post.mockResolvedValue(data);
+  // });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -60,10 +63,9 @@ describe('Register page', () => {
   });
 
   it('if after successful registration you should redirect to customer page', () => {
-    const spyAxios = jest.spyOn(axios, 'post');
-    const res = { data };
+    const spyAxios = jest.spyOn(axios, 'post')
+      .mockImplementation(() => Promise.resolve(data));
     const userLocalStorage = { name: nameMock, email: emailMock, role: 'customer' };
-    axios.post.mockResolvedValue(res);
     const { history } = renderWithRouter(<App />);
     history.push('/register');
     const nameInput = screen.getByLabelText(/nome/i);
@@ -77,15 +79,15 @@ describe('Register page', () => {
     waitFor(() => {
       expect(history.location.pathname).toBe('/customer/products');
       expect(localStorage.getItem('user')).toBe(JSON.stringify(userLocalStorage));
+      expect(spyAxios).toHaveBeenCalled();
     });
-    expect(spyAxios).toHaveBeenCalled();
   });
 
   it(
     'if there is already a user with the name, the message "Usuário ou email já existe!"',
     () => {
-      const res = { response: { data: userAlreadyExists } };
-      axios.post.mockRejectedValue(res);
+      const spyAxios = jest.spyOn(axios, 'post')
+        .mockImplementation(() => Promise.reject(userAlreadyExists));
       const { history } = renderWithRouter(<App />);
       history.push('/register');
       const nameInput = screen.getByLabelText(/nome/i);
@@ -98,6 +100,7 @@ describe('Register page', () => {
       fireEvent.click(registerButton);
       waitFor(() => {
         expect(screen.getByText(/usuário ou email já existe/i)).toBeInTheDocument();
+        expect(spyAxios).toHaveBeenCalled();
       });
     },
   );
