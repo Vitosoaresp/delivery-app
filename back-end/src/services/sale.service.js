@@ -23,7 +23,7 @@ const saleService = {
       where: { userId },
       include: [
         {
-          all: true,
+          all: true, nested: true,
         },
       ],
     });

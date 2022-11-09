@@ -1,26 +1,27 @@
-import moment from 'moment';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from '../Components/Navbar';
-import { DeliveryContext } from '../context/DeliveryContext';
 import { fetchCustomerOrdersById } from '../services/fetchCustomerOrders';
 
 export default function CustomerOrderById() {
   const { id } = useParams();
-  const { token } = useContext(DeliveryContext);
   const [orderData, setOrderData] = useState();
 
   const PAD_START = 3;
+  const date = new Date(orderData?.saleDate).toLocaleDateString('pt-BR');
+
+  const userData = localStorage.getItem('user');
 
   useEffect(() => {
+    const userParse = JSON.parse(userData);
     const getOrder = async () => {
-      if (token) {
-        const order = await fetchCustomerOrdersById(id, token);
+      if (userParse.token) {
+        const order = await fetchCustomerOrdersById(id, userParse.token);
         setOrderData(order);
       }
     };
     getOrder();
-  }, [token, id]);
+  }, [userData, id]);
 
   return (
     <>
@@ -43,7 +44,7 @@ export default function CustomerOrderById() {
         <p
           data-testid="customer_order_details__element-order-details-label-order-date"
         >
-          {orderData && moment(orderData.saleDate).locale('pt-br').format('DD/MM/YYYY')}
+          {orderData && date}
         </p>
         <p
           data-testid={
