@@ -42,7 +42,7 @@ const saleController = {
     const { status } = req.body;
     const sale = await saleService.updateStatus(id, status);
     return res.status(200).json(sale);
-  }
+  },
 };
 
 module.exports = saleController;

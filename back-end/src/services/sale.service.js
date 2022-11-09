@@ -71,7 +71,7 @@ const saleService = {
   updateStatus: async (id, status) => {
     const sale = await Sale.update({ status }, { where: { id } });
     return sale;
-  }
+  },
 };
 
 module.exports = saleService;
