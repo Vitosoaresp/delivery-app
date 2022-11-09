@@ -50,6 +50,17 @@ const saleService = {
       await t.rollback();
     }
   },
+ 
+  getSaleById: async (id) => {
+    try {
+      const sale = await Sale.findOne({ where: { id }, include: { all: true } });
+      if (!sale) return { error: 'Sale not found' };
+      return sale;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  },
 
   getBySeller: async (id) => {
     const sales = await Sale.findAll({ where: { sellerId: id } });

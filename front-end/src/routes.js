@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Orders from './pages/Orders';
 import Products from './pages/Products';
 import Register from './pages/Register';
+import SellerOrderDetails from './pages/SellerOrderDetails';
 import SellerOrders from './pages/SellerOrders';
 
 export default function Routes() {
@@ -24,6 +25,9 @@ export default function Routes() {
       </Route>
       <Route path="/customer/checkout">
         <Checkout />
+      </Route>
+      <Route path="/seller/orders/:id">
+        <SellerOrderDetails />
       </Route>
       <Route path="/customer/orders/:id">
         <CustomerOrderById />
