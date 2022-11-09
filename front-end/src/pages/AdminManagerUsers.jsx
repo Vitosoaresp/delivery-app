@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
 import SellerNavbar from '../Components/SellerNavbar';
+import UserBox from '../Components/UsersBox';
 
 import {
   validateEmail,
   validatePassword,
   validateUsername,
 } from '../helpers/validationForm';
+import getAllUsers from '../services/getAllUsers';
 
 export default function Checkout() {
   const [name, setName] = useState('');
@@ -14,26 +16,17 @@ export default function Checkout() {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('customer');
   const [isValidFormBtn, setIsValidFormBtn] = useState(false);
+  const [users, setUsers] = useState([]);
   // const [errorRegisterMessage, setErrorRegisterMessage] = useState(false);
   // const [sales, setSales] = useState([]);
 
-  // const renderSaleBox = () => {
-  //   const salesBox = sales.map((sale) => {
-  //     const { id, totalPrice, deliveryAddress, deliveryNumber, saleDate, status } = sale;
-  //     return (<SaleBox
-  //       key={ id }
-  //       id={ id }
-  //       totalPrice={ totalPrice }
-  //       deliveryAddress={ deliveryAddress }
-  //       deliveryNumber={ deliveryNumber }
-  //       saleDate={ moment(saleDate).format('L') }
-  //       status={ status }
-  //     />);
-  //   });
-  //   return salesBox;
-  // };
-
   useEffect(() => {
+    const fetchUser = async () => {
+      const { data } = await getAllUsers();
+      setUsers(data);
+    };
+
+    fetchUser();
     const isValidUsername = validateUsername(name);
     const isValidEmail = validateEmail(email);
     const isValidPassword = validatePassword(password);
@@ -104,15 +97,31 @@ export default function Checkout() {
             Cadastrar
           </button>
         </form>
-        <h1>Lista de usuários</h1>
       </div>
+      <h1>Lista de usuários</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Tipo</th>
+            <th>Excluir</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user, index) => (
+            <UserBox
+              key={ index }
+              index={ index }
+              id={ user.id }
+              name={ user.name }
+              email={ user.email }
+              role={ user.role }
+            />
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
-
-// - 69: admin_manage__element-user-table-item-number-<index>
-// - 70: admin_manage__element-user-table-name-<index>
-// - 71: admin_manage__element-user-table-email-<index>
-// - 72: admin_manage__element-user-table-role-<index>
-// - 73: admin_manage__element-user-table-remove-<index>
-// - 74: admin_manage__element-invalid-register [Elemento oculto (Mensagens de erro)]
