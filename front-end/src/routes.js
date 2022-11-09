@@ -7,6 +7,7 @@ import Products from './pages/Products';
 import Register from './pages/Register';
 import SellerOrderDetails from './pages/SellerOrderDetails';
 import SellerOrders from './pages/SellerOrders';
+import AdminManagerUser from './pages/AdminManagerUsers';
 
 export default function Routes() {
   return (
@@ -35,11 +36,11 @@ export default function Routes() {
       <Route path="/seller/orders">
         <SellerOrders />
       </Route>
-      <Route path="/seller/orders/:id">
-        <h1>Estou aqui</h1>
-      </Route>
       <Route path="/customer/orders">
         <Orders />
+      </Route>
+      <Route path="/admin/manage">
+        <AdminManagerUser />
       </Route>
     </Switch>
   );
