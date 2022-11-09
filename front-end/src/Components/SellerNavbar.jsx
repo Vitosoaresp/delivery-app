@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link, useHistory } from 'react-router-dom';
 
-export default function Navbar() {
+export default function Navbar({ title }) {
   const history = useHistory();
 
   function handleToLogout() {
@@ -17,7 +18,7 @@ export default function Navbar() {
           to="/seller/orders"
           data-testid="customer_products__element-navbar-link-orders"
         >
-          PEDIDOS
+          { title }
         </Link>
       </div>
       <div data-testid="customer_products__element-navbar-user-full-name">
@@ -35,3 +36,7 @@ export default function Navbar() {
     </nav>
   );
 }
+
+Navbar.propTypes = {
+  title: PropTypes.string,
+}.isRequired;
