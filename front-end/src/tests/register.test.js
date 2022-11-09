@@ -11,11 +11,6 @@ import {
 } from './mocks/registerMock';
 
 describe('Register page', () => {
-  // beforeEach(() => {
-  // jest.mock('axios');
-  // axios.post.mockResolvedValue(data);
-  // });
-
   afterEach(() => {
     jest.clearAllMocks();
   });
