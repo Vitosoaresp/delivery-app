@@ -6,7 +6,7 @@ import {
   contextMock,
   emailFailMock, emailMock,
   passwordFailMock, passwordMock, userStorageMock,
-} from './mocks/loginMocks';
+} from './mocks/user';
 
 describe('Page login test', () => {
   afterEach(() => {

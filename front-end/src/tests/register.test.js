@@ -3,12 +3,12 @@ import axios from 'axios';
 import App from '../App';
 import renderWithRouter from './helper/renderWithRouter';
 import {
-  data,
+  responseApi,
   emailMock,
   nameMock,
   passwordMock,
   userAlreadyExists,
-} from './mocks/registerMock';
+} from './mocks/user';
 
 describe('Register page', () => {
   afterEach(() => {
@@ -59,7 +59,7 @@ describe('Register page', () => {
 
   it('if after successful registration you should redirect to customer page', () => {
     const spyAxios = jest.spyOn(axios, 'post')
-      .mockImplementation(() => Promise.resolve(data));
+      .mockImplementation(() => Promise.resolve(responseApi));
     const userLocalStorage = { name: nameMock, email: emailMock, role: 'customer' };
     const { history } = renderWithRouter(<App />);
     history.push('/register');
