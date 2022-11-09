@@ -46,12 +46,11 @@ export default function SellerOrderDetails() {
                 {formatDate(orderCard.saleDate)}
               </td>
               <td>
-                <button
-                  type="button"
+                <span
                   data-testid={ statsTestID }
                 >
                   {`${orderCard.status}`}
-                </button>
+                </span>
 
               </td>
               <td>
