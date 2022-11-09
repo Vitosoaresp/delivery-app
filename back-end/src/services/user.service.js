@@ -28,6 +28,11 @@ const userService = {
     return newUser;
   },
 
+  getAll: async () => {
+    const users = await User.findAll();
+    return users;
+  },
+
   getIdByEmail: async (email) => {
     const user = await User.findOne({ where: { email } });
     return user.id;
