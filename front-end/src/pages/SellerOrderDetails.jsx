@@ -4,8 +4,11 @@ import Navbar from '../Components/Navbar';
 import getSaleById from '../services/APIsellerOrderDetails';
 import formatDate from '../helpers/formatDate';
 
+import updateStatusOrder from '../services/APIupdateStatusOrder';
+
 export default function SellerOrderDetails() {
   const [orderCard, setOrderCard] = useState([]);
+  const [newStatus, setNewStatus] = useState('Pendente');
   const params = useParams();
 
   // test ID grande demais
@@ -20,7 +23,26 @@ export default function SellerOrderDetails() {
       setOrderCard(result);
     }
     fetchOrderCard();
-  }, [params.id]);
+  }, [params.id, newStatus]);
+
+  // função para atualizar o status do pedido
+  // __________________________________________
+
+  const TRANSITO = 'Em Trânsito';
+  const PREPARO = 'Preparando';
+  const PENDENTE = 'Pendente';
+
+  async function updateStatusPrepare() {
+    const { status } = orderCard;
+    if (status === PENDENTE) {
+      await updateStatusOrder(params.id, PREPARO);
+      setNewStatus(PREPARO);
+    }
+    if (status === PREPARO) {
+      await updateStatusOrder(params.id, TRANSITO);
+      setNewStatus(TRANSITO);
+    }
+  }
 
   return (
     <div>
@@ -55,15 +77,18 @@ export default function SellerOrderDetails() {
               </td>
               <td>
                 <button
+                  disabled={ orderCard.status !== 'Pendente' }
                   type="button"
                   data-testid="seller_order_details__button-preparing-check"
+                  onClick={ () => updateStatusPrepare() }
                 >
                   PREPARAR PEDIDO
                 </button>
                 <button
-                  disabled
+                  disabled={ orderCard.status !== 'Preparando' }
                   type="button"
                   data-testid="seller_order_details__button-dispatch-check"
+                  onClick={ () => updateStatusPrepare() }
                 >
                   SAIU PARA ENTREGA
                 </button>
