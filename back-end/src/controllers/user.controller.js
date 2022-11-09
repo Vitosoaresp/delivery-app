@@ -23,6 +23,11 @@ const userController = {
     return res.status(201).json(user);
   },
 
+  getAll: async (_req, res) => {
+    const users = await userService.getAll();
+    return res.status(200).json(users);
+  },
+
   getSellers: async (_req, res) => {
     const sellers = await userService.getSellers();
     return res.status(200).json(sellers);
