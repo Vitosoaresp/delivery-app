@@ -39,9 +39,8 @@ export default function Checkout() {
 
   return (
     <div>
-      <SellerNavbar />
+      <SellerNavbar title="PEDIDOS" />
       <div>{ sales.length > 0 && renderSaleBox() }</div>
-      Bem-vindo, Vendedor!
     </div>
   );
 }
