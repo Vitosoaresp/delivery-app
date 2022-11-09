@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const jwtkey = require('fs').readFileSync('../back-end/jwt.evaluation.key', { encoding: 'utf-8' }); 
+const jwtkey = require('fs').readFileSync('../back-end/jwt.evaluation.key', { encoding: 'utf-8' });
 
 module.exports = async (req, res, next) => {
   const token = req.headers.authorization;
@@ -9,6 +9,6 @@ module.exports = async (req, res, next) => {
     req.user = data;
     next();
   } catch (e) {
-    return res.status(401).json({ message: 'Expired or invalid token' }); 
+    return res.status(401).json({ message: 'Expired or invalid token' });
   }
 };

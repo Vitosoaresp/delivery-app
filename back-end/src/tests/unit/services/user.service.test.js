@@ -6,7 +6,7 @@ const jwt= require('jsonwebtoken');
 const { User } = require('../../../database/models');
 const UserService = require('../../../services/user.service');
 
-userMock = {
+const userMock = {
   id: 1,
   name: 'Delivery App Admin',
   email: 'adm@deliveryapp.com',
@@ -14,8 +14,8 @@ userMock = {
   role: 'customer',
 }
 
-userMockWithToken = {
-  id: 1,
+const userMockWithToken = {
+  userId: 1,
   name: 'Delivery App Admin',
   email: 'adm@deliveryapp.com',
   role: 'customer',
@@ -41,7 +41,6 @@ describe('Testes de unidade do service de users', function () {
       const email = userMock.email;
       const password = userMock.password;
       const result = await UserService.login({ email, password });
-  
       expect(result).to.be.deep.equal(userMockWithToken);
     });
 

@@ -31,7 +31,6 @@ export default function Checkout() {
 
   const finishSale = async () => {
     const sale = await createSale(data, token);
-    console.log(sale);
     const { data: { id } } = sale;
     history.push(`/customer/orders/${id}`);
   };

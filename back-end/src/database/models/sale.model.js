@@ -13,17 +13,17 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       foreignKey: true,
     },
-    totalPrice: DataTypes.DECIMAL(9,2),
+    totalPrice: DataTypes.DECIMAL(9, 2),
     deliveryAddress: DataTypes.STRING,
     deliveryNumber: DataTypes.STRING,
     saleDate: DataTypes.NOW,
     status: DataTypes.STRING,
   },
-  {
-    timestamps: false,
-    tableName: 'sales',
-    underscored: true,
-  });
+    {
+      timestamps: false,
+      tableName: 'sales',
+      underscored: true,
+    });
 
   Sale.associate = (models) => {
     Sale.belongsTo(models.User,

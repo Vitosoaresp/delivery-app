@@ -1,5 +1,4 @@
 const Sequelize = require('sequelize');
-// const moment = require('moment');
 const saleProductService = require('./saleProduct.service');
 const { Sale } = require('../database/models');
 
@@ -9,12 +8,34 @@ const config = require('../database/config/config');
 const sequelize = new Sequelize(config[env]);
 
 const saleService = {
+  getAll: async () => {
+    const sales = await Sale.findAll();
+    return sales;
+  },
+
+  getAllByUserId: async (userId) => {
+    const sales = await Sale.findAll({ where: { userId } });
+    return sales;
+  },
+
+  getById: async (userId, saleId) => {
+    const sale = await Sale.findByPk(saleId, {
+      where: { userId },
+      include: [
+        {
+          all: true, nested: true,
+        },
+      ],
+    });
+    if (!sale) return { message: 'Sale not found' };
+    return sale;
+  },
+
   create: async (data) => {
     const t = await sequelize.transaction();
     try {
       const { userId, sellerId, totalPrice, deliveryAddress, deliveryNumber, cart } = data;
       const status = 'Pendente';
-      // const saleDate = moment().toISOString();
       const newSale = await Sale.create({
         userId, sellerId, totalPrice, deliveryAddress, deliveryNumber, status,
       }, { transaction: t });
@@ -29,7 +50,7 @@ const saleService = {
       await t.rollback();
     }
   },
-  // retornar venda por Id e incluir os produtos dessa venda
+ 
   getSaleById: async (id) => {
     try {
       const sale = await Sale.findOne({ where: { id }, include: { all: true } });
@@ -39,7 +60,12 @@ const saleService = {
       console.log(error);
       return error;
     }
-  }
+  },
+
+  getBySeller: async (id) => {
+    const sales = await Sale.findAll({ where: { sellerId: id } });
+    return sales;
+  },
 };
 
 module.exports = saleService;

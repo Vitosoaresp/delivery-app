@@ -1,11 +1,11 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 
-const SaleProductService = require('../../../services/sale.service');
+const SaleProductService = require('../../../services/saleProduct.service');
 const SaleProductController = require('../../../controllers/saleProduct.controller');
 
 const sale = { 
-  userId: 1,
+  saleId: 1,
   productId: 3,
   quantity: 7,
 }
