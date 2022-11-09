@@ -3,6 +3,7 @@ import Login from './pages/Login';
 import Products from './pages/Products';
 import Register from './pages/Register';
 import Checkout from './pages/Checkout';
+import SellerOrderDetails from './pages/SellerOrderDetails';
 
 export default function Routes() {
   return (
@@ -21,6 +22,9 @@ export default function Routes() {
       </Route>
       <Route path="/customer/checkout">
         <Checkout />
+      </Route>
+      <Route path="/seller/orders/:id">
+        <SellerOrderDetails />
       </Route>
     </Switch>
   );
