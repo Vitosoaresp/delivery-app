@@ -11,7 +11,7 @@ const userService = {
     });
     if (!user) return { status: 404, message: 'Not Found' };
     const result = { userId: user.id, name: user.name, email: user.email, role: user.role };
-    const token = jwtService.createToken(result);
+    const token = await jwtService.createToken(result);
     return { ...result, token };
   },
 

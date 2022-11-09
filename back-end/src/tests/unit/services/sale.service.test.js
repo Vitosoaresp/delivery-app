@@ -1,46 +1,61 @@
-const sinon = require('sinon');
 const { expect } = require('chai');
+const sinon = require('sinon');
 
-const saleService = require('../../../services/sale.service');
 const { Sale } = require('../../../database/models');
-const { salesMocks, saleMock, saleMockWithId } = require('../../mocks/sale.mocks');
+const SaleService = require('../../../services/sale.service');
+const saleProductService = require('../../../services/saleProduct.service');
 
-describe('Testes de unidade do service de sales', () => {
-  beforeEach(() => {
-    sinon.stub(Sale, 'findAll').resolves(salesMocks);
-    sinon.stub(Sale, 'create').resolves({ id: 1 });
-    sinon.stub(Sale, 'findByPk')
-      .onFirstCall().resolves(saleMock).onSecondCall().resolves(null);
-  })
+const cart = [
+  { id: 1, name: 'Skol Lata 250ml', quantity: 10 },
+];
 
-  afterEach(() => {
-    sinon.restore();
-  });
+const sale = { 
+  userId: 1,
+  sellerId: 2,
+  totalPrice: 10.0,
+  deliveryAddress: 'rua 2',
+  delineryNumber: '121',
+  saleDate: '03/11/2022 15:47',
+  cart,
+}
 
-  describe('teste do endpoint /sales', () => {
-    it('Busca por todos as vendas realizadas com sucesso', async () => {
-      const result = await saleService.getAll();
-      expect(result).to.be.deep.equal(salesMocks);
+const saleWithId = {
+  id: 1,
+  userId: 1,
+  sellerId: 2,
+  totalPrice: 10.0,
+  deliveryAddress: 'rua 2',
+  delineryNumber: '121',
+  saleDate: '03/11/2022 15:47',
+}
+
+const saleProduct = {
+  saleId: 1,
+  productId: 1,
+  quantity: 10,
+}
+
+describe('Testes de unidade do service de Sales', function () {
+  describe('teste do endpoint /sales', function () {
+    it('Sale criado com sucesso', async function () {
+      sinon.stub(Sale, 'create').resolves(saleWithId);
+      sinon.stub(saleProductService, 'create').resolves(saleProduct);
+      
+      const result = SaleService.create(sale);
+
+      expect(await result).to.be.deep.equal(saleWithId);
     });
   });
 
-  describe('teste do endpoint /sales/:id', () => {
-    it('Busca por uma venda com sucesso', async () => {
-      const result = await saleService.getById(1);
-      expect(result).to.be.deep.equal(saleMockWithId);
-    });
-
-    it('caso a venda não exista, retorna uma mensagem de erro', async () => {
-      const result = await saleService.getById(99);
-      expect(result).to.be.deep.equal({ message: 'Sale not found' });
+  describe('teste do endpoint /sales/seller/id', function () {
+    it('Busca de Sales por sellerId feito com sucesso', async function () {
+      sinon.stub(Sale, 'findAll').resolves([sale]);
+      const result = await SaleService.getBySeller([sale]);
+  
+      expect(result).to.be.deep.equal([sale]);
+      expect(result).to.be.an('array');
     });
   });
 
-  describe('teste do endpoint /sales', () => {
-    it('Sale criado com sucesso', async () => {
-      const result = await SaleService.create(saleMock);
-      expect(result).to.be.deep.equal({ id: 1 });
-      expect(result).to.be.an('object');
-    });
-  });
+  afterEach(sinon.restore);
 });
