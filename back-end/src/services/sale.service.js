@@ -21,7 +21,11 @@ const saleService = {
   getById: async (userId, saleId) => {
     const sale = await Sale.findByPk(saleId, {
       where: { userId },
-      include: { association: 'sales' },
+      include: [
+        {
+          all: true, nested: true,
+        },
+      ],
     });
     if (!sale) return { message: 'Sale not found' };
     return sale;
