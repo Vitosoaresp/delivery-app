@@ -62,6 +62,7 @@ export default function SellerOrderDetails() {
                   PREPARAR PEDIDO
                 </button>
                 <button
+                  disabled
                   type="button"
                   data-testid="seller_order_details__button-dispatch-check"
                 >
@@ -135,7 +136,7 @@ export default function SellerOrderDetails() {
       ))}
       {orderCard.length !== 0 && (
         <h3 data-testid="seller_order_details__element-order-total-price">
-          {`R$${orderCard.totalPrice}`}
+          {`${orderCard.totalPrice.replace('.', ',')}`}
         </h3>)}
     </div>
   );
