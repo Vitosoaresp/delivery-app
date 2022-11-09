@@ -46,6 +46,11 @@ const saleService = {
       await t.rollback();
     }
   },
+
+  getBySeller: async (id) => {
+    const sales = await Sale.findAll({ where: { sellerId: id } });
+    return sales;
+  },
 };
 
 module.exports = saleService;

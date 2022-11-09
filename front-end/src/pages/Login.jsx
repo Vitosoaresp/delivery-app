@@ -40,13 +40,15 @@ export default function Login() {
       e.preventDefault();
       const { data } = await login(email, password);
       const userData = {
+        id: data.userId,
         email: data.email,
         name: data.name,
         role: data.role,
         token: data.token,
       };
       localStorage.setItem('user', JSON.stringify(userData));
-      history.push('/customer/products');
+      if (userData.role === 'seller') history.push('/seller/orders');
+      if (userData.role === 'customer') history.push('/customer/products');
     } catch (error) {
       setErrorLoginMessage(true);
     }

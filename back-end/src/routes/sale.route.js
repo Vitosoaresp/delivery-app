@@ -5,6 +5,7 @@ const validateJWT = require('../middlewares/validateJWT');
 
 const router = Router();
 
+router.get('/sales/seller/:id', saleController.getBySeller);
 router.get('/sales', validateJWT, saleController.getAllByUserId);
 router.get('/sales/:saleId', validateJWT, saleController.getUniqueById);
 router.post('/sales', validateJWT, saleController.create);
