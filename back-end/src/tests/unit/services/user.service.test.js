@@ -113,12 +113,20 @@ describe('Testes de unidade do service de users', function () {
 
   describe('teste do endpoint /users', function () {
     it('buscando todos os users com sucesso', async function () {
-      sinon.stub(User, 'findAll').resolves(sellerMock);
+      sinon.stub(User, 'findAll').resolves(userMock);
       const result = await UserService.getAll();
-      expect(result).to.be.deep.equal(sellerMock);
+      expect(result).to.be.deep.equal(userMock);
     });
   });
 
+  describe('teste da função getIdByEmail', function () {
+    it('buscando o id do usuário pelo email', async function () {
+      const email = userMock.email;
+      sinon.stub(User, 'findOne').resolves(userMock);
+      const result = await UserService.getIdByEmail(email);
+      expect(result).to.be.deep.equal(userMock.id);
+    });
+  });
 
   afterEach(sinon.restore);
 });
