@@ -18,8 +18,8 @@ export default function SellerOrderDetails() {
 
   useEffect(() => {
     async function fetchOrderCard() {
+      console.log('entre no USEEFFECT');
       const result = await getSaleById(params.id);
-      console.log('result ---->>>>', result);
       setOrderCard(result);
     }
     fetchOrderCard();
@@ -31,14 +31,15 @@ export default function SellerOrderDetails() {
   const TRANSITO = 'Em Trânsito';
   const PREPARO = 'Preparando';
   const PENDENTE = 'Pendente';
+  console.log('orderCard - pendente', orderCard);
+  console.log('status novo', newStatus);
 
   async function updateStatusPrepare() {
-    const { status } = orderCard;
-    if (status === PENDENTE) {
+    if (newStatus === PENDENTE) {
       await updateStatusOrder(params.id, PREPARO);
       setNewStatus(PREPARO);
     }
-    if (status === PREPARO) {
+    if (newStatus === PREPARO) {
       await updateStatusOrder(params.id, TRANSITO);
       setNewStatus(TRANSITO);
     }
@@ -46,8 +47,7 @@ export default function SellerOrderDetails() {
 
   return (
     <div>
-      {/* {console.log('orderCard ---->>>>', orderCard)} */}
-      {console.log('totalPrice ---->>>>', orderCard.totalPrice)}
+
       <Navbar />
       <h1>Detalhe do Pedido</h1>
       {orderCard.length !== 0 && (
