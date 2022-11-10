@@ -79,5 +79,16 @@ describe('Testes de unidade do service de Sales', function () {
     });
   });
 
+    // Method getById
+    describe('teste do endpoint /sales/:id', function () {
+      it('Busca de Sales por sellerId feito com sucesso', async function () {
+        sinon.stub(Sale, 'findByPk').resolves(saleWithId);
+        const result = await SaleService.getById(1);
+    
+        expect(result).to.be.deep.equal(saleWithId);
+        expect(result).to.be.an('object');
+      });
+    });
+
   afterEach(sinon.restore);
 });
