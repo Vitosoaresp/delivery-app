@@ -22,8 +22,9 @@ const userService = {
     if (userVerifyName || userVerifyEmail) {
       return { status: 409, message: 'User already registered' };
     }
+    const userRole = !data.role ? 'customer' : data.role;
     const newUser = await User.create({
-      name: data.name, email: data.email, password: passCryptor, role: 'customer',
+      name: data.name, email: data.email, password: passCryptor, role: userRole,
     });
     return newUser;
   },

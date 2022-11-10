@@ -13,9 +13,9 @@ const userController = {
   },
 
   create: async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
-    const user = await userService.create({ name, email, password });
+    const user = await userService.create({ name, email, password, role });
     const { status, message } = user;
 
     if (status && message) return res.status(status).json({ message });
