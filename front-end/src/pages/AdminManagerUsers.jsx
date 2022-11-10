@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 import SellerNavbar from '../Components/SellerNavbar';
 import UserBox from '../Components/UsersBox';
@@ -17,8 +18,20 @@ export default function Checkout() {
   const [role, setRole] = useState('customer');
   const [isValidFormBtn, setIsValidFormBtn] = useState(false);
   const [users, setUsers] = useState([]);
-  // const [errorRegisterMessage, setErrorRegisterMessage] = useState(false);
+  const [errorRegisterMessage, setErrorRegisterMessage] = useState(false);
   // const [sales, setSales] = useState([]);
+
+  function handleSubmitRegister(e) {
+    const { token } = JSON.parse(localStorage.getItem('user'));
+    e.preventDefault();
+    console.log(name, email, password, role);
+    axios
+      .post('http://localhost:3001/admin/register', { name, email, password, role }, { headers: { authorization: token } })
+      .catch((error) => {
+        console.log(error);
+        setErrorRegisterMessage(true);
+      });
+  }
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -32,20 +45,22 @@ export default function Checkout() {
     const isValidPassword = validatePassword(password);
     const isValidAll = isValidUsername && isValidEmail && isValidPassword;
     setIsValidFormBtn(isValidAll);
-    // setErrorRegisterMessage(false);
+    setErrorRegisterMessage(false);
   }, [name, email, password]);
-
-  function handleSubmitRegister(e) {
-    e.preventDefault();
-    console.log(name, email, password, role);
-  }
 
   return (
     <div>
       <SellerNavbar title="GERENCIAR USUÁRIOS" />
       <div>
         <h1>Cadastrar novo usuário</h1>
-        <div className="message-error">Oculto</div>
+        <div className="message-error">
+          {errorRegisterMessage && (
+            <p data-testid="admin_manage__element-invalid-register">
+              Usuário ou email já existe!
+            </p>
+          )}
+
+        </div>
         <form onSubmit={ (e) => handleSubmitRegister(e) }>
           <label htmlFor="name">
             Nome
