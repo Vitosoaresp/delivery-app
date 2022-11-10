@@ -65,7 +65,7 @@ export default function CustomerOrderById() {
         </p>
         <button
           type="button"
-          disabled={ orderData && orderData.status !== 'Em Trânsito' }
+          disabled={ !!(orderData && orderData.status !== 'Em Trânsito') }
           data-testid="customer_order_details__button-delivery-check"
           onClick={ () => updateStatusDelivered() }
         >
