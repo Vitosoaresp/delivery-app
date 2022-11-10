@@ -70,7 +70,7 @@ describe('Testes de unidade do service de users', function () {
       expect(result).to.be.deep.equal(userMock);
     });
 
-    it('cadastro não realizdo realizado com sucesso - Name já cadastrado', async function () {
+    it('cadastro não realizado com sucesso - Name já cadastrado', async function () {
       sinon.stub(User, 'findOne').resolves(userMock);
       sinon.stub(User, 'create').resolves(null);
 
@@ -86,7 +86,7 @@ describe('Testes de unidade do service de users', function () {
       });
     });
 
-    it('cadastro não realizdo realizado com sucesso - Email já cadastrado', async function () {
+    it('cadastro não realizado com sucesso - Email já cadastrado', async function () {
       sinon.stub(User, 'findOne').resolves(userMock);
       sinon.stub(User, 'create').resolves(null);
 
@@ -101,6 +101,19 @@ describe('Testes de unidade do service de users', function () {
         status: 409,
       });
     });
+
+    // it('realiza cadastro com role: customer como padrão', async function () {
+    //   sinon.stub(User, 'create').resolves(userMock);
+    //   sinon.stub(User, 'findOne').resolves(null);
+
+    //   const result = await UserService.create({
+    //     name: userMock.name,
+    //     email: userMock.email,
+    //     password: '--adm2@21!!--',
+    //   });
+
+    //   expect(result).to.be.deep.equal(userMock);
+    // });
   });
 
   describe('teste do endpoint /users/sellers', function () {

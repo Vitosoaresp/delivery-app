@@ -45,6 +45,12 @@ describe('Testes de unidade do service de Sales', function () {
 
       expect(await result).to.be.deep.equal(saleWithId);
     });
+
+    it('buscando todos os sales com sucesso', async function () {
+      sinon.stub(Sale, 'findAll').resolves(sale);
+      const result = await SaleService.getAll();
+      expect(result).to.be.deep.equal(sale);
+    });
   });
 
   describe('teste do endpoint /sales/seller/id', function () {
