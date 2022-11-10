@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Navbar from '../Components/Navbar';
+// import Navbar from '../Components/Navbar';
+import SellerNavbar from '../Components/SellerNavbar';
 import getSaleById from '../services/APIsellerOrderDetails';
 import formatDate from '../helpers/formatDate';
 
@@ -48,7 +49,7 @@ export default function SellerOrderDetails() {
   return (
     <div>
 
-      <Navbar />
+      <SellerNavbar />
       <h1>Detalhe do Pedido</h1>
       {orderCard.length !== 0 && (
         <table
