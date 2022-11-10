@@ -111,6 +111,14 @@ describe('Testes de unidade do service de users', function () {
     });
   });
 
+  describe('teste do endpoint /users', function () {
+    it('buscando todos os users com sucesso', async function () {
+      sinon.stub(User, 'findAll').resolves(sellerMock);
+      const result = await UserService.getAll();
+      expect(result).to.be.deep.equal(sellerMock);
+    });
+  });
+
 
   afterEach(sinon.restore);
 });
