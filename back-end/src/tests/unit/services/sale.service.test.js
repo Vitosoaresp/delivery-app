@@ -36,16 +36,20 @@ const saleProduct = {
 }
 
 describe('Testes de unidade do service de Sales', function () {
+  // Method create
   describe('teste do endpoint /sales', function () {
     it('Sale criado com sucesso', async function () {
       sinon.stub(Sale, 'create').resolves(saleWithId);
       sinon.stub(saleProductService, 'create').resolves(saleProduct);
       
-      const result = SaleService.create(sale);
+      const result = await SaleService.create(sale);
 
-      expect(await result).to.be.deep.equal(saleWithId);
+      expect(result).to.be.deep.equal(saleWithId);
     });
+  });
 
+  // Method getAll
+  describe('teste do endpoint /sales', function () {
     it('buscando todos os sales com sucesso', async function () {
       sinon.stub(Sale, 'findAll').resolves(sale);
       const result = await SaleService.getAll();
@@ -53,6 +57,7 @@ describe('Testes de unidade do service de Sales', function () {
     });
   });
 
+  // Method getBySeller
   describe('teste do endpoint /sales/seller/id', function () {
     it('Busca de Sales por sellerId feito com sucesso', async function () {
       sinon.stub(Sale, 'findAll').resolves([sale]);
@@ -60,6 +65,17 @@ describe('Testes de unidade do service de Sales', function () {
   
       expect(result).to.be.deep.equal([sale]);
       expect(result).to.be.an('array');
+    });
+  });
+
+  // Method getSaleById
+  describe('teste do endpoint /sales/:id', function () {
+    it('Busca de Sales por sellerId feito com sucesso', async function () {
+      sinon.stub(Sale, 'findOne').resolves(saleWithId);
+      const result = await SaleService.getSaleById(1);
+  
+      expect(result).to.be.deep.equal(saleWithId);
+      expect(result).to.be.an('object');
     });
   });
 
