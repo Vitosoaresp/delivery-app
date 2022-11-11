@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from '../Components/Navbar';
 import { fetchCustomerOrdersById } from '../services/fetchCustomerOrders';
+import updateStatusOrder from '../services/APIupdateStatusOrder';
 
 export default function CustomerOrderById() {
   const { id } = useParams();
   const [orderData, setOrderData] = useState();
+  const [newStatus, setNewStatus] = useState();
 
   const PAD_START = 3;
   const date = new Date(orderData?.saleDate).toLocaleDateString('pt-BR');
@@ -21,7 +23,15 @@ export default function CustomerOrderById() {
       }
     };
     getOrder();
-  }, [userData, id]);
+  }, [userData, id, newStatus]);
+
+  async function updateStatusDelivered() {
+    const { status } = orderData;
+    if (status === 'Em Trânsito') {
+      await updateStatusOrder(id, 'Entregue');
+      setNewStatus('Entregue');
+    }
+  }
 
   return (
     <>
@@ -55,8 +65,9 @@ export default function CustomerOrderById() {
         </p>
         <button
           type="button"
-          disabled
+          disabled={ !!(orderData && orderData.status !== 'Em Trânsito') }
           data-testid="customer_order_details__button-delivery-check"
+          onClick={ () => updateStatusDelivered() }
         >
           MARCAR COMO ENTREGE
         </button>
@@ -125,3 +136,4 @@ export default function CustomerOrderById() {
     </>
   );
 }
+// coments

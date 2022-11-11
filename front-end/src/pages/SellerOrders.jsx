@@ -19,7 +19,7 @@ export default function Checkout() {
     };
 
     fetchSales();
-  }, [sales]);
+  }, []);
 
   const renderSaleBox = () => {
     const salesBox = sales.map((sale) => {

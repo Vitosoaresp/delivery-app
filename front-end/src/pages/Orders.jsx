@@ -1,23 +1,29 @@
 import moment from 'moment';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import NavBar from '../Components/Navbar';
-import { DeliveryContext } from '../context/DeliveryContext';
+// import { DeliveryContext } from '../context/DeliveryContext';
 import { fetchCustomerOrders } from '../services/fetchCustomerOrders';
 
 export default function Orders() {
-  const { token } = useContext(DeliveryContext);
+  const getTokenFromLocalStorage = localStorage.getItem('user');
+
   const [orders, setOrders] = useState([]);
+  console.log('orders', orders);
 
   useEffect(() => {
+    const { token } = JSON.parse(getTokenFromLocalStorage);
+    console.log('entrei no useEffect');
     const getOrders = async () => {
+      console.log('sem token');
       if (token) {
         const ordersData = await fetchCustomerOrders(token);
+        console.log('COM token');
         setOrders(ordersData);
       }
     };
     getOrders();
-  }, [token]);
+  }, [getTokenFromLocalStorage]);
 
   const PAD_START = 3;
 

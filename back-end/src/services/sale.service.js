@@ -66,6 +66,12 @@ const saleService = {
     const sales = await Sale.findAll({ where: { sellerId: id } });
     return sales;
   },
+
+  // atualizar status da venda
+  updateStatus: async (id, status) => {
+    const sale = await Sale.update({ status }, { where: { id } });
+    return sale;
+  },
 };
 
 module.exports = saleService;
