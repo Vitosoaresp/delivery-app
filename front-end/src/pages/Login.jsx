@@ -15,11 +15,11 @@ export default function Login() {
     const userStorage = JSON.parse(localStorage.getItem('user'));
     if (userStorage) {
       switch (userStorage.role) {
-      case 'seller':
-        history.push('/seller/orders');
-        break;
       case 'administrator':
         history.push('/admin/manage');
+        break;
+      case 'seller':
+        history.push('/seller/orders');
         break;
       default:
         history.push('/customer/products');
@@ -49,6 +49,7 @@ export default function Login() {
       localStorage.setItem('user', JSON.stringify(userData));
       if (userData.role === 'seller') history.push('/seller/orders');
       if (userData.role === 'customer') history.push('/customer/products');
+      if (userData.role === 'administrator') history.push('/admin/manage');
     } catch (error) {
       setErrorLoginMessage(true);
     }

@@ -24,6 +24,12 @@ const saleController = {
     const sale = await saleService.create({ userId, ...req.body });
     return res.status(201).json(sale);
   },
+  
+  getSaleById: async (req, res) => {
+    const { id } = req.params;
+    const sale = await saleService.getSaleById(id);
+    return res.status(200).json(sale);
+  },
 
   getBySeller: async (req, res) => {
     const { id } = req.params;

@@ -13,14 +13,19 @@ const userController = {
   },
 
   create: async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
-    const user = await userService.create({ name, email, password });
+    const user = await userService.create({ name, email, password, role });
     const { status, message } = user;
 
     if (status && message) return res.status(status).json({ message });
     
     return res.status(201).json(user);
+  },
+
+  getAll: async (_req, res) => {
+    const users = await userService.getAll();
+    return res.status(200).json(users);
   },
 
   getSellers: async (_req, res) => {
