@@ -1,16 +1,15 @@
 import { render } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
-import React from 'react';
 import { Router } from 'react-router-dom';
-import { DeliveryContext } from '../../context/DeliveryContext';
+import DeliveryContextProvider from '../../context/DeliveryContext';
 
-const renderWithRouter = (component, valueContext) => {
+const renderWithRouter = (component) => {
   const history = createMemoryHistory();
   return ({
     ...render(
-      <DeliveryContext.Provider value={ valueContext }>
+      <DeliveryContextProvider>
         <Router history={ history }>{component}</Router>
-      </DeliveryContext.Provider>,
+      </DeliveryContextProvider>,
     ),
     history,
   });
