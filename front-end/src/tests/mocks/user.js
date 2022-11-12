@@ -1,5 +1,3 @@
-import products from './productsMocks';
-
 const emailMock = 'fulana@deliveryapp.com';
 const passwordMock = 'fulana@123';
 const emailFailMock = 'test@gmail';
@@ -14,14 +12,6 @@ const userStorageMock = {
   name: 'Fulana da Silva',
   role: 'customer',
   token: fakeToken,
-};
-
-const fakeCart = [];
-
-const contextMock = {
-  productsInfo: products,
-  cart: fakeCart,
-  setCart: (product) => fakeCart.push(product),
 };
 
 const responseApi = {
@@ -70,5 +60,4 @@ export {
   userAlreadyExists,
   userStorageMock,
   fakeToken,
-  contextMock,
 };
