@@ -2,17 +2,29 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import axios from 'axios';
 import App from '../App';
 import renderWithRouter from './helper/renderWithRouter';
+import mockProducts from './mocks/productsMocks';
+import { sellers } from './mocks/sellers';
 import {
-  responseApi,
+  allUsers,
   emailMock,
   nameMock,
-  passwordMock,
-  userAlreadyExists,
+  passwordMock, responseApi, userAlreadyExists,
 } from './mocks/user';
 
 describe('Register page', () => {
+  beforeEach(() => {
+    jest.spyOn(axios, 'get').mockResolvedValueOnce({
+      data: mockProducts,
+    }).mockResolvedValueOnce({
+      data: sellers,
+    }).mockResolvedValueOnce({
+      data: allUsers,
+    });
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
+    localStorage.clear();
   });
 
   it('should render the register page', () => {
@@ -58,8 +70,9 @@ describe('Register page', () => {
   });
 
   it('if after successful registration you should redirect to customer page', () => {
-    const spyAxios = jest.spyOn(axios, 'post')
-      .mockImplementation(() => Promise.resolve(responseApi));
+    jest.spyOn(axios, 'post').mockResolvedValueOnce({
+      data: responseApi,
+    });
     const userLocalStorage = { name: nameMock, email: emailMock, role: 'customer' };
     const { history } = renderWithRouter(<App />);
     history.push('/register');
@@ -74,15 +87,13 @@ describe('Register page', () => {
     waitFor(() => {
       expect(history.location.pathname).toBe('/customer/products');
       expect(localStorage.getItem('user')).toBe(JSON.stringify(userLocalStorage));
-      expect(spyAxios).toHaveBeenCalled();
     });
   });
 
   it(
     'if there is already a user with the name, the message "Usuário ou email já existe!"',
     () => {
-      const spyAxios = jest.spyOn(axios, 'post')
-        .mockImplementation(() => Promise.reject(userAlreadyExists));
+      axios.post.mockRejectedValueOnce(userAlreadyExists);
       const { history } = renderWithRouter(<App />);
       history.push('/register');
       const nameInput = screen.getByLabelText(/nome/i);
@@ -95,7 +106,6 @@ describe('Register page', () => {
       fireEvent.click(registerButton);
       waitFor(() => {
         expect(screen.getByText(/usuário ou email já existe/i)).toBeInTheDocument();
-        expect(spyAxios).toHaveBeenCalled();
       });
     },
   );
