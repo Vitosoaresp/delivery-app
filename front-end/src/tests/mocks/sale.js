@@ -36,3 +36,16 @@ export const salesMock = [
     },
   },
 ];
+
+export const mockSalesOrders = [
+  {
+    deliveryAddress: 'rua pereira',
+    deliveryNumber: '12',
+    id: 1,
+    saleDate: new Date('2022-11-01T01:00:10.000Z').toString(),
+    sellerId: 2,
+    status: 'Pendente',
+    totalPrice: '15.40',
+    userId: 3,
+  },
+];
