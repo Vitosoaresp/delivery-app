@@ -8,6 +8,8 @@ export const createSaleReturnMock = {
   status: 'Pendente',
 };
 
+const date = new Date('2022-11-01T01:00:10.000Z');
+
 export const salesMock = [
   {
     id: 1,
@@ -15,7 +17,7 @@ export const salesMock = [
     totalPrice: '2.20',
     deliveryAddress: 'Rua das Flores',
     deliveryNumber: '123',
-    saleDate: new Date('2022-11-01T01:00:10.000Z'),
+    saleDate: date,
     status: 'Pendente',
     sales: [
       {

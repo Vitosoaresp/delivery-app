@@ -1,3 +1,4 @@
+import { fireEvent, waitFor } from '@testing-library/react';
 import axios from 'axios';
 import App from '../App';
 import renderWithRouter from './helper/renderWithRouter';
@@ -7,11 +8,12 @@ import { sellers } from './mocks/sellers';
 import { userStorageMock } from './mocks/user';
 
 describe('Page customer order by id', () => {
+  let pedidoData;
   const TEST_ID_BASE = 'customer_order_details__element-order-details';
   const TEST_ID_ORDER_ID_PED = `${TEST_ID_BASE}-label-order-id`;
   const TEST_ID_ORDER_ID_VENDEDOR = `${TEST_ID_BASE}-label-seller-name`;
   const TEST_ID_ORDER_ID_DATA = `${TEST_ID_BASE}-label-order-date`;
-  const TEST_ID_ORDER_ID_STATUS = `${TEST_ID_BASE}-label-delivery-status-1`;
+  const TEST_ID_ORDER_ID_STATUS = `${TEST_ID_BASE}-label-delivery-status-`;
   const TEST_ID_ORDER_ID_BTN_CHECK = 'customer_order_details__button-delivery-check';
 
   const TEST_ID_ORDER_ID_TB_NAME = 'customer_order_details__element-order-table-name';
@@ -21,12 +23,13 @@ describe('Page customer order by id', () => {
   const TEST_ID_ORDER_ID_TOTAL = 'customer_order_details__element-order-total-price';
 
   beforeEach(() => {
+    pedidoData = salesMock;
     jest.spyOn(axios, 'get').mockResolvedValueOnce({
       data: mockProducts,
     }).mockResolvedValueOnce({
       data: sellers,
     }).mockResolvedValueOnce({
-      data: salesMock[0],
+      data: pedidoData[0],
     });
     Storage.prototype.getItem = jest.fn(() => JSON.stringify(userStorageMock));
   });
@@ -42,7 +45,7 @@ describe('Page customer order by id', () => {
     const pedNumber = await findByTestId(TEST_ID_ORDER_ID_PED);
     const sellerName = await findByTestId(TEST_ID_ORDER_ID_VENDEDOR);
     const pedDate = await findByTestId(TEST_ID_ORDER_ID_DATA);
-    const pedStatus = await findByTestId(TEST_ID_ORDER_ID_STATUS);
+    const pedStatus = await findByTestId(`${TEST_ID_ORDER_ID_STATUS}${1}`);
     const pedBtnCheck = await findByTestId(TEST_ID_ORDER_ID_BTN_CHECK);
     const productName = await findAllByTestId(`${TEST_ID_ORDER_ID_TB_NAME}-0`);
     const productQnt = await findAllByTestId(`${TEST_ID_ORDER_ID_TB_QNT}-0`);
@@ -68,5 +71,19 @@ describe('Page customer order by id', () => {
     expect(pedTotal)
       .toHaveTextContent(`${Number(salesMock[0].totalPrice)
         .toFixed(2).replace('.', ',')}`);
+  });
+
+  it('deve ser possivel marcar um pedido como entregue', async () => {
+    pedidoData[0].status = 'Em Trânsito';
+    jest.spyOn(axios, 'put').mockResolvedValueOnce({ data: {} });
+    const { history, findByTestId } = renderWithRouter(<App />);
+    history.push(`/customer/orders/${2}`);
+    const pedBtnCheck = await findByTestId(TEST_ID_ORDER_ID_BTN_CHECK);
+    const pedStatus = await findByTestId(`${TEST_ID_ORDER_ID_STATUS}2`);
+    expect(pedStatus).toHaveTextContent(salesMock[0].status);
+    expect(pedBtnCheck).toBeEnabled();
+    fireEvent.click(pedBtnCheck);
+    pedidoData[0].status = 'Entregue';
+    await waitFor(() => expect(pedStatus).toHaveTextContent('Entregue'));
   });
 });
