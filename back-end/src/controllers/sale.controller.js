@@ -24,7 +24,7 @@ const saleController = {
     const sale = await saleService.create({ userId, ...req.body });
     return res.status(201).json(sale);
   },
-  
+
   getSaleById: async (req, res) => {
     const { id } = req.params;
     const sale = await saleService.getSaleById(id);
@@ -35,6 +35,13 @@ const saleController = {
     const { id } = req.params;
     const sales = await saleService.getBySeller(id);
     return res.status(200).json(sales);
+  },
+
+  updateStatus: async (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
+    const sale = await saleService.updateStatus(id, status);
+    return res.status(200).json(sale);
   },
 };
 

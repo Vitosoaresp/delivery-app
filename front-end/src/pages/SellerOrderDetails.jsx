@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Navbar from '../Components/Navbar';
+// import Navbar from '../Components/Navbar';
+import SellerNavbar from '../Components/SellerNavbar';
 import getSaleById from '../services/APIsellerOrderDetails';
 import formatDate from '../helpers/formatDate';
 
+import updateStatusOrder from '../services/APIupdateStatusOrder';
+
 export default function SellerOrderDetails() {
   const [orderCard, setOrderCard] = useState([]);
+  const [newStatus, setNewStatus] = useState('Pendente');
   const params = useParams();
 
   // test ID grande demais
@@ -15,18 +19,37 @@ export default function SellerOrderDetails() {
 
   useEffect(() => {
     async function fetchOrderCard() {
+      console.log('entre no USEEFFECT');
       const result = await getSaleById(params.id);
-      console.log('result ---->>>>', result);
       setOrderCard(result);
     }
     fetchOrderCard();
-  }, [params.id]);
+  }, [params.id, newStatus]);
+
+  // função para atualizar o status do pedido
+  // __________________________________________
+
+  const TRANSITO = 'Em Trânsito';
+  const PREPARO = 'Preparando';
+  const PENDENTE = 'Pendente';
+  console.log('orderCard - pendente', orderCard);
+  console.log('status novo', newStatus);
+
+  async function updateStatusPrepare() {
+    if (newStatus === PENDENTE) {
+      await updateStatusOrder(params.id, PREPARO);
+      setNewStatus(PREPARO);
+    }
+    if (newStatus === PREPARO) {
+      await updateStatusOrder(params.id, TRANSITO);
+      setNewStatus(TRANSITO);
+    }
+  }
 
   return (
     <div>
-      {/* {console.log('orderCard ---->>>>', orderCard)} */}
-      {console.log('totalPrice ---->>>>', orderCard.totalPrice)}
-      <Navbar />
+
+      <SellerNavbar />
       <h1>Detalhe do Pedido</h1>
       {orderCard.length !== 0 && (
         <table
@@ -46,25 +69,27 @@ export default function SellerOrderDetails() {
                 {formatDate(orderCard.saleDate)}
               </td>
               <td>
-                <button
-                  type="button"
+                <span
                   data-testid={ statsTestID }
                 >
                   {`${orderCard.status}`}
-                </button>
+                </span>
 
               </td>
               <td>
                 <button
+                  disabled={ orderCard.status !== 'Pendente' }
                   type="button"
                   data-testid="seller_order_details__button-preparing-check"
+                  onClick={ () => updateStatusPrepare() }
                 >
                   PREPARAR PEDIDO
                 </button>
                 <button
-                  disabled
+                  disabled={ orderCard.status !== 'Preparando' }
                   type="button"
                   data-testid="seller_order_details__button-dispatch-check"
+                  onClick={ () => updateStatusPrepare() }
                 >
                   SAIU PARA ENTREGA
                 </button>
