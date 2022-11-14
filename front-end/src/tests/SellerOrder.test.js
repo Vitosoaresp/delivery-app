@@ -67,21 +67,21 @@ describe('Page Seller Order & seller order details', () => {
     expect(btnDispatch).toBeInTheDocument();
   });
 
-  it('deve ser possível alterar o status para SAIU PARA ENTREGA', async () => {
-    const { history, getByRole, findByTestId } = renderWithRouter(<App />);
-    history.push('/seller/orders/1');
-    expect(getByRole('heading', { level: 1, name: 'Detalhe do Pedido' }))
-      .toBeInTheDocument();
-    const orderId = await findByTestId(TESTID_ORDER_ID);
-    const orderDate = await findByTestId(TESTID_ORDER_DT);
-    const orderStatus = await findByTestId(TESTID_ORDER_ST);
-    const btnPrepare = await findByTestId(TESTID_BTN_PREPARE);
-    const btnDispatch = await findByTestId(TESTID_BTN_DISPATCH);
-    expect(orderId).toHaveTextContent('Pedido 1');
-    const dateExpec = formatDate(mockSalesOrders[0].saleDate);
-    expect(orderDate).toHaveTextContent(dateExpec);
-    expect(orderStatus).toHaveTextContent('Pendente');
-    expect(btnPrepare).toBeInTheDocument();
-    expect(btnDispatch).toBeInTheDocument();
-  });
+  // it('deve ser possível alterar o status para SAIU PARA ENTREGA', async () => {
+  //   const { history, getByRole, findByTestId } = renderWithRouter(<App />);
+  //   history.push('/seller/orders/1');
+  //   expect(getByRole('heading', { level: 1, name: 'Detalhe do Pedido' }))
+  //     .toBeInTheDocument();
+  //   const orderId = await findByTestId(TESTID_ORDER_ID);
+  //   const orderDate = await findByTestId(TESTID_ORDER_DT);
+  //   const orderStatus = await findByTestId(TESTID_ORDER_ST);
+  //   const btnPrepare = await findByTestId(TESTID_BTN_PREPARE);
+  //   const btnDispatch = await findByTestId(TESTID_BTN_DISPATCH);
+  //   expect(orderId).toHaveTextContent('Pedido 1');
+  //   const dateExpec = formatDate(mockSalesOrders[0].saleDate);
+  //   expect(orderDate).toHaveTextContent(dateExpec);
+  //   expect(orderStatus).toHaveTextContent('Pendente');
+  //   expect(btnPrepare).toBeInTheDocument();
+  //   expect(btnDispatch).toBeInTheDocument();
+  // });
 });
