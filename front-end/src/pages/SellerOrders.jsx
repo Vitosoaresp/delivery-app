@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
 import moment from 'moment/moment';
+import React, { useEffect, useState } from 'react';
 // import { useHistory } from 'react-router-dom';
 
 import SellerNavbar from '../Components/SellerNavbar';
@@ -8,7 +8,7 @@ import getSalesBySeller from '../services/getSalesBySeller';
 
 import SaleBox from '../Components/SaleBox';
 
-export default function Checkout() {
+export default function SellerOrders() {
   const [sales, setSales] = useState([]);
 
   useEffect(() => {
