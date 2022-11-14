@@ -58,7 +58,7 @@ export default function CustomerOrderById() {
           disabled
           data-testid="customer_order_details__button-delivery-check"
         >
-          MARCAR COMO ENTREGE
+          MARCAR COMO ENTREGUE
         </button>
       </div>
       <table>
